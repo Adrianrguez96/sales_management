@@ -1,0 +1,51 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Caches
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Environments
+.env
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs y editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Pytest
+.cache/
+
+# logs
+*.log
+
+# Restore files
+*~ 
+*.bak
+*.swp
+*.tmp
+
+# Segurity files
+*.pem
+*.key
+
+# Other files
+*.db
+*.DS_Store
+Thumbs.db
