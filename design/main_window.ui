@@ -898,7 +898,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnCategories">
+         <widget class="QPushButton" name="btnCategory">
           <property name="palette">
            <palette>
             <active>
@@ -1280,7 +1280,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="companies">
+         <widget class="QPushButton" name="btnCompany">
           <property name="palette">
            <palette>
             <active>
@@ -1471,7 +1471,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnSales">
+         <widget class="QPushButton" name="btnSale">
           <property name="palette">
            <palette>
             <active>

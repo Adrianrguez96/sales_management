@@ -7,3 +7,6 @@ class SaleView(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('design/sale_window.ui', self)
+
+        # Set view settings 
+        self.setWindowTitle("Sales Management - Sales")

@@ -12,22 +12,33 @@ from views.sale_view import SaleView
 
 class MainView(QMainWindow):
     def __init__(self):
-        super().__init__()  
+        super().__init__()
+        self.init_ui()
+        self.views = [InventoryView(), CategoryView(), ClientView(), CompanyView(), SaleView()]
+        self.add_views()
+        self.set_view(0)
+        self.setup_menu_signals()
 
-        super(QMainWindow, self).__init__()
+    def init_ui(self):
+        """Load UI settings and configurations."""
         uic.loadUi('design/main_window.ui', self)
+        self.setWindowTitle("Sales Management - Home")
+        self.setFixedSize(800, 650)
 
-        # Add the inventory view
-        self.addViews()
+    def add_views(self):
+        """Add views to the stacked widget."""
+        for view in self.views:
+            self.content.addWidget(view)
 
-        self.content.setCurrentIndex(6)
-    
-    def addViews(self):
-        self.content.addWidget(InventoryView())
-        self.content.addWidget(CategoryView())
-        self.content.addWidget(ClientView())
-        self.content.addWidget(CompanyView())
-        self.content.addWidget(SaleView())
+    def setup_menu_signals(self):
+        """Connect menu buttons to the respective views."""
+        buttons = [self.btnHome, self.btnInventory, self.btnCategory, 
+                   self.btnClient, self.btnCompany, self.btnSale]
 
+        for index, button in enumerate(buttons):
+            button.clicked.connect(lambda checked, idx=index: self.set_view(idx))
 
-
+    def set_view(self, index):
+        """Set the current view based on the index."""
+        if 0 <= index < (len(self.views) + 1):  # Ensure index is valid
+            self.content.setCurrentIndex(index)

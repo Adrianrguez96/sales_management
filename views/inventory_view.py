@@ -8,4 +8,7 @@ class InventoryView(QWidget):
         super().__init__()
         uic.loadUi('design/inventory_window.ui', self)
 
+        # Set view settings
+        self.setWindowTitle("Sales Management - Inventory")
+
         

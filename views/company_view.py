@@ -7,3 +7,6 @@ class CompanyView(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('design/company_window.ui', self)
+
+        # Set view settings
+        self.setWindowTitle("Sales Management - Companies")
