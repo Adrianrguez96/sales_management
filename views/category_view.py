@@ -10,3 +10,13 @@ class CategoryView(QWidget):
 
         # Set view settings
         self.setWindowTitle("Sales Management - Categories")
+
+        # Set button signals
+        self.addCategory.clicked.connect(self.add_category)
+        self.searchCategory.clicked.connect(self.search_category)
+
+    def add_category(self):
+        print("Add category")
+
+    def search_category(self):
+        print("Search category")

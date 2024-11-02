@@ -11,4 +11,15 @@ class InventoryView(QWidget):
         # Set view settings
         self.setWindowTitle("Sales Management - Inventory")
 
+        # Set button signals
+        self.addInventory.clicked.connect(self.add_product)
+        self.searchInventory.clicked.connect(self.search_product)
+
+    def add_product(self):
+        print("Add product")
+
+    def search_product(self):
+        print("Search product")
+
+
         

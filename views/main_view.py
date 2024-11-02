@@ -1,6 +1,7 @@
 # /views/main_view.py
 
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QIcon
 from PyQt5 import uic
 
 # Load the UI views
@@ -14,16 +15,21 @@ class MainView(QMainWindow):
     def __init__(self):
         super().__init__()
         self.init_ui()
+
         self.views = [InventoryView(), CategoryView(), ClientView(), CompanyView(), SaleView()]
         self.add_views()
         self.set_view(0)
+
         self.setup_menu_signals()
 
     def init_ui(self):
         """Load UI settings and configurations."""
         uic.loadUi('design/main_window.ui', self)
+
+        # Set view settings
         self.setWindowTitle("Sales Management - Home")
         self.setFixedSize(800, 650)
+        self.setWindowIcon(QIcon("/design/images/logo-icon.ico"))
 
     def add_views(self):
         """Add views to the stacked widget."""
