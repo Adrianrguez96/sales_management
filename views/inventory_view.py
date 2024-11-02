@@ -1,25 +1,23 @@
-# /views/inventory_view.py
-
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
+
+from views.form_views.add_product_view import AddProductWindow
 
 class InventoryView(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('design/inventory_window.ui', self)
 
-        # Set view settings
+        # Basic windows Settings
         self.setWindowTitle("Sales Management - Inventory")
 
-        # Set button signals
-        self.addInventory.clicked.connect(self.add_product)
-        self.searchInventory.clicked.connect(self.search_product)
+        # Connects the buttons
+        self.addInventory.clicked.connect(self.open_add_product_window)
+        self.searchInventory.clicked.connect(self.open_search_product_window)
 
-    def add_product(self):
-        print("Add product")
+    def open_add_product_window(self):
+        self.add_product_window = AddProductWindow()  
+        self.add_product_window.exec_()  
 
-    def search_product(self):
-        print("Search product")
-
-
-        
+    def open_search_product_window(self):
+        pass
