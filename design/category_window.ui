@@ -183,10 +183,13 @@ QPushButton:pressed {
 </string>
    </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>183</number>
+    <number>274</number>
    </attribute>
    <attribute name="horizontalHeaderMinimumSectionSize">
     <number>39</number>
+   </attribute>
+   <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+    <bool>false</bool>
    </attribute>
    <attribute name="verticalHeaderDefaultSectionSize">
     <number>30</number>
@@ -197,11 +200,6 @@ QPushButton:pressed {
    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
     <bool>false</bool>
    </attribute>
-   <column>
-    <property name="text">
-     <string>Category id</string>
-    </property>
-   </column>
    <column>
     <property name="text">
      <string>Category name</string>

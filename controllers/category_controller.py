@@ -10,10 +10,9 @@ class CategoryController:
         :params
             name: str
             description: str
-            
+
         :returns: Category
         """
-
         if not name or not description:
             print("Category name and description cannot be empty")
             return None
@@ -34,11 +33,9 @@ class CategoryController:
     
     @staticmethod
     def get_categories():
-
         """
         Get all categories from the database
 
         :returns: list
         """
-
         return Category.select_all()

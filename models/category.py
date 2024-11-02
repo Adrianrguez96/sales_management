@@ -24,7 +24,6 @@ class Category:
         """
         Saves the category to the database
         """
-
         self._db.execute_query(
             "INSERT INTO categories (name, description) VALUES (?, ?)",
             (self._name, self._description)
@@ -41,10 +40,16 @@ class Category:
 
         :returns: id, name, description
         """
-
         db = db or Database()
         data = db.fetch_data("SELECT * FROM categories")
-        return [cls(data[i][0],data[i][1], data[i][2], db) for i in range(len(data))]
+        
+        categories = []
+        for row in data:
+            category = cls(row[1], row[2])
+            category.id = row[0]
+            categories.append(category)
+        return categories
+
     
     @classmethod
     def select_by_id(cls, id, db=None):
@@ -56,25 +61,9 @@ class Category:
 
         :returns: name, description
         """
-
         db = db or Database()
         data = db.fetch_data("SELECT * FROM categories WHERE id = ?", (id,))
-        return cls(data[0][1], data[0][2], db) if data else None
-    
-    @classmethod
-    def select_by_name(cls, name, db=None):
-        """
-        Select a category by its name
-        
-        :param name: str
-        :param db: Database
-
-        :returns: id, name, description
-        """
-
-        db = db or Database() 
-        data = db.fetch_data("SELECT * FROM categories WHERE name = ?", (name.lower(),))
-        return cls(data[0][0],data[0][1], data[0][2], db) if data else None
+        return cls(data[0][1], data[0][2]) if data else None
     
     # Decorators methods
 
