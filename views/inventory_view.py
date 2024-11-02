@@ -8,9 +8,6 @@ class InventoryView(QWidget):
         super().__init__()
         uic.loadUi('design/inventory_window.ui', self)
 
-        # Basic windows Settings
-        self.setWindowTitle("Sales Management - Inventory")
-
         # Connects the buttons
         self.addInventory.clicked.connect(self.open_add_product_window)
         self.searchInventory.clicked.connect(self.open_search_product_window)

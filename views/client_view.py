@@ -8,15 +8,12 @@ class ClientView(QWidget):
         super().__init__()
         uic.loadUi('design/client_window.ui', self)
 
-        # Set view settings
-        self.setWindowTitle("Sales Management - Clients")
-
         # Set button signals
-        self.addClient.clicked.connect(self.add_client)
-        self.searchClient.clicked.connect(self.search_client)
+        self.addClient.clicked.connect(self.open_add_client_window)
+        self.searchClient.clicked.connect(self.open_search_client_window)
 
-    def add_client(self):
+    def open_add_client_window(self):
         print("Add client")
 
-    def search_client(self):
+    def open_search_client_window(self):
         print("Search client")

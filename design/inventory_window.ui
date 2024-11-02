@@ -162,7 +162,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>20</x>
      <y>580</y>
-     <width>551</width>
+     <width>541</width>
      <height>55</height>
     </rect>
    </property>
@@ -171,6 +171,9 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="searchInventory">
       <property name="enabled">
        <bool>true</bool>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -214,6 +217,9 @@ QPushButton:hover {
      <widget class="QPushButton" name="addInventory">
       <property name="enabled">
        <bool>true</bool>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">font-weight:bold;

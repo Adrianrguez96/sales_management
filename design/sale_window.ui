@@ -42,6 +42,9 @@ p, li { white-space: pre-wrap; }
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
      <widget class="QPushButton" name="searchSale">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     font-weight: bold;
@@ -82,6 +85,9 @@ QPushButton:hover {
     </item>
     <item>
      <widget class="QPushButton" name="addSale">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
        <string notr="true">font-weight:bold;
 font-size: 14px</string>

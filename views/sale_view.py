@@ -8,5 +8,12 @@ class SaleView(QWidget):
         super().__init__()
         uic.loadUi('design/sale_window.ui', self)
 
-        # Set view settings 
-        self.setWindowTitle("Sales Management - Sales")
+        # Set button signals
+        self.addSale.clicked.connect(self.open_add_sale_window)
+        self.searchSale.clicked.connect(self.open_search_sale_window)
+
+    def open_add_sale_window(self):
+        print("Add sale")
+
+    def open_search_sale_window(self):
+        print("Search sale")
