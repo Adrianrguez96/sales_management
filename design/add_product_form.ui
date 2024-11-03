@@ -272,12 +272,12 @@ p, li { white-space: pre-wrap; }
       <item row="4" column="0">
        <widget class="QLabel" name="manufactureLabel">
         <property name="text">
-         <string>Manufacture</string>
+         <string>Company</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QComboBox" name="manufactureSelect"/>
+       <widget class="QComboBox" name="companySelect"/>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="priceLabel">
