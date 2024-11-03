@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
+from utils.message_service import MessageService
 
 # Import the controller
 from controllers.category_controller import CategoryController
@@ -29,9 +30,12 @@ class AddCategoryWindow(QDialog):
         name = self.nameInput.text()
         description = self.descriptionInput.text()
 
-
-        category = CategoryController.add_category(name, description)
-
-        if category:
+        try:
+            CategoryController.add_category(name, description)
             self.category_added.emit(name, description)
             self.accept()
+        except ValueError as e:
+            MessageService.show_warning("Error Adding Category", str(e))
+        except Exception as e:
+            MessageService.show_critical_warning("Critical Error", str(e))
+        

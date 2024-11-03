@@ -21,6 +21,7 @@ class MainView(QMainWindow):
         Initializes the MainView class
         """
         super().__init__()
+
         self.init_ui()
 
         # Initialize views with future extensibility

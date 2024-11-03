@@ -2,6 +2,8 @@
 
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from PyQt5 import uic
+from utils.message_service import MessageService       
+
 
 # Import the controller and views
 from controllers.category_controller import CategoryController
@@ -29,7 +31,7 @@ class CategoryView(QWidget):
                 self.add_table_category(category.name, category.description)
                 
         except Exception as e:
-            print(e)
+            MessageService.show_critical_warning("Error", "There was an error loading the categories")  
 
             
 

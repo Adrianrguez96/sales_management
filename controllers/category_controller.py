@@ -13,23 +13,16 @@ class CategoryController:
 
         :returns: Category
         """
-        if not name or not description:
-            print("Category name and description cannot be empty")
-            return None
 
+        # Check if the category already exists
+        if Category.select_by_name(name):
+            raise ValueError("Category already exists")
         try:
-        
-            # Check if the category already exists
-            if Category.select_by_name(name):
-                print("Category already exists")
-                return None
-            
             category = Category(name, description)
             category.save()
             return category
-        except Exception as e:
-            print(e)
-            return None
+        except ValueError as e:
+            raise e
     
     @staticmethod
     def get_categories():
