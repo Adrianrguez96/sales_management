@@ -3,6 +3,9 @@
 import sqlite3 as sql
 from sqlite3 import Error
 
+import logging
+import utils.message_service as MessageService
+
 class Database:
     def __init__(self, db_path="database/shop_db.db"):
         self._db_path = db_path
@@ -14,7 +17,8 @@ class Database:
         try:
             return sql.connect(self._db_path)
         except Error as e:
-            print(f"Error al conectar a la base de datos: {e}")
+            MessageService.show_critical_warning("Internal Error", f"Error to connect to database")
+            logging.critical(f"Error to connect to database: {e}")
             return None
 
     def create_tables(self):
@@ -26,11 +30,13 @@ class Database:
                 cursor = con.cursor()
                 cursor.executescript(open("database/schema.sql").read())
                 con.commit()
-                print("Table created successfully")
+                logging.info("Tables have been created successfully")
         except FileNotFoundError:
-            print("Error: The schema.sql file was not found")
+            MessageService.show_critical_warning("Error", "Schema.sql file not found")
+            logging.error("Schema.sql file not found")
         except Error as e:
-            print(f"Error to create tables: {e}")
+            MessageService.show_critical_warning("Internal Error", "Error creating tables")
+            logging.critical(f"Error to create tables: {e}")
 
     def execute_query(self, query, params=()):
         """
@@ -43,7 +49,8 @@ class Database:
                 con.commit()
                 return cursor.lastrowid 
         except Error as e:
-            print(f"Error to execute query: {e}")
+            MessageService.show_critical_warning("Internal Error", f"Error to consult database")
+            logging.error(f"Error to execute query: {e}")
             return None
 
     def fetch_data(self, query, params=()):
@@ -56,5 +63,6 @@ class Database:
                 cursor.execute(query, params)
                 return cursor.fetchall()
         except Error as e:
-            print(f"Error to fetch data: {e}")
+            MessageService.show_critical_warning("Internal Error", f"Error to consult database")
+            logging.error(f"Error to fetch data: {e}")
             return []

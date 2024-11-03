@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 from PyQt5 import uic
 from functools import partial
+import logging
 
 # Load the UI views
 from views.inventory_view import InventoryView
@@ -96,6 +97,7 @@ class MainView(QMainWindow):
             self.content.setCurrentWidget(view)
             self.setWindowTitle(f"{PROGRAM_TITLE} - {view_name.capitalize()}")
         else:
+            logging.error(f"Invalid view name: {view_name}")
             raise ValueError(f"Invalid view name: {view_name}")
 
     def initialize_view_data(self, view, view_name):

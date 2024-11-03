@@ -3,8 +3,11 @@ from PyQt5.QtWidgets import QApplication
 
 from views.main_view import MainView
 from utils.message_service import MessageService
+from utils.logging_config import setup_logging
 
 if __name__ == "__main__": 
+    setup_logging("sales_management.log")
+    
     db = Database()
     db.create_tables()
 

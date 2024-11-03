@@ -5,8 +5,6 @@ from datetime import datetime
 from database.database import Database
 from utils.barCode import BarCode
 
-
-
 class Product:
     def __init__(self, name, category_id, manufacturer_id, price, quantity, description=None):
         self._name = name

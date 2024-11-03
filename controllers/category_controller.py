@@ -1,4 +1,5 @@
 from models.category import Category
+import logging
 
 class CategoryController:
 
@@ -20,8 +21,10 @@ class CategoryController:
         try:
             category = Category(name, description)
             category.save()
+            logging.info(f"Category {name} added successfully")
             return category
-        except ValueError as e:
+        except Exception as e:
+            logging.error(f"Error adding category: {e}")
             raise e
     
     @staticmethod
