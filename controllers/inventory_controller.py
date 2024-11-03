@@ -27,6 +27,7 @@ class InventoryController:
             raise ValueError("Product already exists")
         
         try:
+            # TODO: Check message service error handling decimal or integer
             price = float(price) if price else None
             quantity = int(quantity) if quantity else None
 

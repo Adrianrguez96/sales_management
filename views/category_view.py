@@ -9,6 +9,7 @@ import logging
 # Import the controller and views
 from controllers.category_controller import CategoryController
 from views.form_views.add_category_view import AddCategoryWindow
+from views.form_views.search_view import SearchWindow
 
 class CategoryView(QWidget):
     def __init__(self):
@@ -46,7 +47,11 @@ class CategoryView(QWidget):
         self.add_category_window.exec_()  
 
     def open_search_category_window(self):
-        pass
+        """
+        Open the search category window
+        """
+        self.search_category_window = SearchWindow()
+        self.search_category_window.exec_()
 
     def add_table_category(self,name,description):
         """
