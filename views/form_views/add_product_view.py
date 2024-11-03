@@ -1,13 +1,20 @@
+# /views/form_views/add_product_view.py
+
 from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
+from PyQt5.QtCore import pyqtSignal
+from utils.message_service import MessageService 
 import logging
-import utils.message_service as MessageService
 
 # Import the controller
 from controllers.category_controller import CategoryController
 from controllers.company_controller import CompanyController
+from controllers.inventory_controller import InventoryController
 
 class AddProductWindow(QDialog):
+
+    product_added = pyqtSignal(str, str, str, float, int)
+
     def __init__(self):
         super().__init__()
         uic.loadUi('design/add_product_form.ui', self)
@@ -24,7 +31,23 @@ class AddProductWindow(QDialog):
         self.btnCancel.clicked.connect(self.reject)
 
     def add_product(self):
-        pass
+        """
+        Add a new product to the database
+        """
+        name = self.nameInput.text()
+        category_id = self.categorySelect.itemData(self.categorySelect.currentIndex())
+        manufacturer_id = self.companySelect.itemData(self.companySelect.currentIndex())
+        price = self.priceInput.text()
+        quantity = self.quantityInput.text()
+        
+        try:
+            product = InventoryController.add_product(name, category_id, manufacturer_id, price, quantity)
+            self.product_added.emit(product.name, product.category_name, product.manufacturer_name, product.price, product.quantity)
+            self.accept()
+        except ValueError as e:
+            MessageService.show_warning("Error Adding Product", str(e))
+        except Exception as e:
+            MessageService.show_critical_warning("Critical Error", str(e))
     
     def load_categories_select(self):
         """

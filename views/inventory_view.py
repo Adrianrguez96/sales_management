@@ -1,3 +1,5 @@
+# /views/inventory_view.py
+
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from PyQt5 import uic
 from utils.message_service import MessageService    
@@ -34,7 +36,8 @@ class InventoryView(QWidget):
         """
         Open the add product window
         """
-        self.add_product_window = AddProductWindow()  
+        self.add_product_window = AddProductWindow()
+        self.add_product_window.product_added.connect(self.add_table_product)
         self.add_product_window.exec_()  
 
     def open_search_product_window(self):
@@ -42,7 +45,7 @@ class InventoryView(QWidget):
 
     def add_table_product(self, name, category, company, price, quantity):
         """
-        Add a new row to the productTable
+        Add a new row to the product table
         :param
             name: str
             category: str
@@ -50,9 +53,9 @@ class InventoryView(QWidget):
             price: float
             quantity: int
         """
-        self.productTable.setRowCount(self.productTable.rowCount()+1)
-        self.productTable.setItem(self.productTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.productTable.setItem(self.productTable.rowCount()-1,1,QTableWidgetItem(category))
-        self.productTable.setItem(self.productTable.rowCount()-1,2,QTableWidgetItem(company))
-        self.productTable.setItem(self.productTable.rowCount()-1,3,QTableWidgetItem(str(price)))
-        self.productTable.setItem(self.productTable.rowCount()-1,4,QTableWidgetItem(str(quantity)))
+        self.inventoryTable.setRowCount(self.inventoryTable.rowCount()+1)
+        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,0,QTableWidgetItem(name))
+        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,1,QTableWidgetItem(category))
+        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,2,QTableWidgetItem(company))
+        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,3,QTableWidgetItem(str(price)))
+        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,4,QTableWidgetItem(str(quantity)))

@@ -1,3 +1,5 @@
+# /views/main_view.py
+
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 from PyQt5 import uic

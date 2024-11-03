@@ -290,14 +290,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QLineEdit" name="priceInput"/>
       </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="qualityLabel">
+       <widget class="QLabel" name="quantityLabel">
         <property name="text">
          <string>Quality</string>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QLineEdit" name="qualityInput"/>
+       <widget class="QLineEdit" name="quantityInput"/>
       </item>
      </layout>
     </item>

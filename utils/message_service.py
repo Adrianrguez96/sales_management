@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QMessageBox, QPushButton, QWidget
-import sys
+# /utils/message_service.py
+
+from PyQt5.QtWidgets import QMessageBox, QWidget
 
 class MessageService(QWidget):
 

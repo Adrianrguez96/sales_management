@@ -6,7 +6,7 @@ from database.database import Database
 from utils.barCode import BarCode
 
 class Product:
-    def __init__(self, name, category_id, manufacturer_id, price, quantity, description=None):
+    def __init__(self, name, category_id, manufacturer_id, price, quantity, description= ""):
         self.name = name
         self.description = description
         self.category_id = category_id
@@ -43,6 +43,19 @@ class Product:
             return None
     
     @classmethod
+    def select_by_name(cls, name, db=None):
+        """
+        Select a product by its name
+        :param
+            name: str
+            db: Database
+        :returns: id, name, description, category_id, manufacturer_id, price, quantity, code
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products WHERE name = ?", (name.lower(),))
+        return cls(data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6]) if data else None
+    
+    @classmethod
     def select_all(cls, db=None):
         """
         Select all products
@@ -58,6 +71,35 @@ class Product:
             product.id = row[0]
             products.append(product)
         return products
+    
+    @classmethod
+    def select_all_for_display(cls, db=None):
+        """
+        Select all products with category and manufacturer names for display purposes.
+        :param db: Database
+        :returns: List of products with category and manufacturer names
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products")
+        
+        products_for_display = []
+        for row in data:
+            category = Category.select_by_id(row[2])  
+            manufacturer = Company.select_by_id(row[3]) 
+            
+            product_display = {
+                'id': row[0],
+                'name': row[1],
+                'description': row[7],
+                'category_name': category.name if category else None,
+                'manufacturer_name': manufacturer.name if manufacturer else None,
+                'price': row[4],
+                'quantity': row[5],
+                'code': row[6]
+                }
+            products_for_display.append(product_display)
+        return products_for_display
+
 
         
     # Getters and setters for the attributes
@@ -79,7 +121,7 @@ class Product:
     
     @description.setter
     def description(self, value):
-        if not isinstance(self._description, str):
+        if not isinstance(value, str):
             raise TypeError("Description must be a string")
         self._description = value
         self._last_update = datetime.now()

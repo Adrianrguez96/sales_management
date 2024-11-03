@@ -1,7 +1,10 @@
+# /controllers/company_controller.py
+
 from models.company import Company
 import logging
 
 class CompanyController:
+
     @staticmethod
     def add_company(name, description, factory_code):
         """
@@ -13,6 +16,7 @@ class CompanyController:
         
         :returns: Company
         """
+        
         if Company.select_by_name(name):
             raise ValueError("Company already exists")
         if Company.select_by_factory_code(factory_code):
