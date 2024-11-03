@@ -107,6 +107,8 @@ class MainView(QMainWindow):
         :param view_name: str
         """
         match view_name:
+            case "inventory":
+                view.load_products()
             case "category":
                 view.load_categories()
             case "company": 

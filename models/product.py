@@ -7,13 +7,13 @@ from utils.barCode import BarCode
 
 class Product:
     def __init__(self, name, category_id, manufacturer_id, price, quantity, description=None):
-        self._name = name
-        self._description = description
-        self._category_id = category_id
-        self._manufacturer_id = manufacturer_id
-        self._price = price
-        self._quantity = quantity
-        self._code = BarCode.generate_barcode("038", "001")
+        self.name = name
+        self.description = description
+        self.category_id = category_id
+        self.manufacturer_id = manufacturer_id
+        self.price = price
+        self.quantity = quantity
+        self.code = BarCode.generate_barcode("038", "001")
         self._creation_date = datetime.now()
         self._last_update = datetime.now()
 
@@ -28,15 +28,37 @@ class Product:
                          "VALUES (?, ?, ?, ?, ?, ?, ?)",
                          (self._name, self._description, self._category_id, self._manufacturer_id, self._price, self._quantity, self._code))
 
-    # Select a product by ID
     @classmethod
     def select_by_id(cls, id):
+        """
+        Select a product by its id
+        :param id: int
+        :returns: name, description, category_id, manufacturer_id, price, quantity, code
+        """
         db = Database()
         data = db.fetch_data("SELECT * FROM products WHERE id = ?", (id,))
         if data:
             return Product(data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6])
         else:
             return None
+    
+    @classmethod
+    def select_all(cls, db=None):
+        """
+        Select all products
+        :param db: Database
+        :returns: id, name, description, category_id, manufacturer_id, price, quantity, code
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products")
+
+        products = []
+        for row in data:
+            product = cls(row[1], row[2], row[3], row[4], row[5], row[6])
+            product.id = row[0]
+            products.append(product)
+        return products
+
         
     # Getters and setters for the attributes
 

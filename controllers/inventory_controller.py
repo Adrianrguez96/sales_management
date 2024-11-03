@@ -10,3 +10,11 @@ class InventoryController:
         product = Product(name, category_id, manufacturer_id, price, quantity)
         product.save()
         return product
+    
+    @staticmethod
+    def get_products():
+        """
+        Get all products from the database
+        :returns: list
+        """
+        return Product.select_all()
