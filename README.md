@@ -54,7 +54,7 @@ With its integrated SQLite3 database, Sales Management ensures reliable data sto
 4. **Generating Products:** Products can be generated with a unique barcode reflecting the associated manufacturer’s factory code.
    
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
