@@ -106,5 +106,8 @@ class MainView(QMainWindow):
         :param view: QWidget
         :param view_name: str
         """
-        if view_name == "category":
-            view.load_categories()
+        match view_name:
+            case "category":
+                view.load_categories()
+            case "company": 
+                view.load_companies()
