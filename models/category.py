@@ -1,3 +1,5 @@
+# /models/category.py
+
 from datetime import datetime
 from database.database import Database
 
@@ -10,8 +12,8 @@ class Category:
         :param description: str
         :param db: Database
         """
-        self._name = name.lower()
-        self._description = description.lower()
+        self.name = name.lower()
+        self.description = description.lower()
         self._creation_date = datetime.now()
         self._last_update = datetime.now()
         self._db = db or Database()
@@ -65,6 +67,19 @@ class Category:
         data = db.fetch_data("SELECT * FROM categories WHERE id = ?", (id,))
         return cls(data[0][1], data[0][2]) if data else None
     
+    @classmethod
+    def select_by_name(cls, name, db=None):
+        """
+        Select a category by its name
+        
+        :param name: str
+        :param db: Database
+        :returns: id, name, description
+        """
+        db = db or Database() 
+        data = db.fetch_data("SELECT * FROM categories WHERE name = ?", (name.lower(),))
+        return cls(data[0][1], data[0][2]) if data else None
+    
     # Decorators methods
 
     @staticmethod
@@ -87,8 +102,11 @@ class Category:
     @name.setter
     @_general_update_last_modified
     def name(self, value):
-        if not isinstance(value, str):
+        if not value:
+            raise ValueError("Name cannot be empty")
+        elif not isinstance(value, str):
             raise TypeError("Name must be a string")
+
         self._name = value
         
     @property
@@ -98,8 +116,11 @@ class Category:
     @description.setter
     @_general_update_last_modified
     def description(self, value):
-        if not isinstance(value, str) and value is not None:
-            raise TypeError("Description must be a string or None")
+        if not value:
+            raise ValueError("Description cannot be empty")
+        elif not isinstance(value, str):
+            raise TypeError("Description must be a string")
+        
         self._description = value
 
     @property

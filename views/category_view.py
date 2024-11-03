@@ -2,10 +2,14 @@
 
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from PyQt5 import uic
+from utils.message_service import MessageService    
+import logging   
+
 
 # Import the controller and views
 from controllers.category_controller import CategoryController
 from views.form_views.add_category_view import AddCategoryWindow
+from views.form_views.search_view import SearchWindow
 
 class CategoryView(QWidget):
     def __init__(self):
@@ -29,7 +33,8 @@ class CategoryView(QWidget):
                 self.add_table_category(category.name, category.description)
                 
         except Exception as e:
-            print(e)
+            MessageService.show_critical_warning("Error", "There was an error loading the categories") 
+            logging.error(f"Error loading categories: {e}")
 
             
 
@@ -42,7 +47,11 @@ class CategoryView(QWidget):
         self.add_category_window.exec_()  
 
     def open_search_category_window(self):
-        pass
+        """
+        Open the search category window
+        """
+        self.search_category_window = SearchWindow()
+        self.search_category_window.exec_()
 
     def add_table_category(self,name,description):
         """
