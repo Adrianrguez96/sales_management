@@ -25,7 +25,7 @@ class InventoryView(QWidget):
         try:
             products = InventoryController.get_products()
             for product in products:
-                self.add_table_product(product.name, product.category, product.company, product.price, product.quantity)
+                self.add_table_product(product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity'])
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the products") 

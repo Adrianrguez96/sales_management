@@ -58,4 +58,3 @@ CREATE TABLE IF NOT EXISTS orders (
     FOREIGN KEY(client_id) REFERENCES clients(id),
     FOREIGN KEY(product_id) REFERENCES products(id)
 );
-

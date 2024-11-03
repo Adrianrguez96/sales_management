@@ -58,50 +58,37 @@ class Product:
     @classmethod
     def select_all(cls, db=None):
         """
-        Select all products
+        Select all products along with their category and manufacturer names
         :param db: Database
-        :returns: id, name, description, category_id, manufacturer_id, price, quantity, code
+        :returns: list of tuples containing (id, name, description, category_name, manufacturer_name, price, quantity, code)
         """
         db = db or Database()
-        data = db.fetch_data("SELECT * FROM products")
+        # Update the query to join with categories and manufacturers
+        query = """
+        SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+        p.price, p.quantity, p.code
+        FROM products p
+        JOIN categories c ON p.category_id = c.id
+        JOIN manufacturer m ON p.manufacturer_id = m.id
+        """
 
+        data = db.fetch_data(query)
+        
         products = []
         for row in data:
-            product = cls(row[1], row[2], row[3], row[4], row[5], row[6])
-            product.id = row[0]
-            products.append(product)
-        return products
-    
-    @classmethod
-    def select_all_for_display(cls, db=None):
-        """
-        Select all products with category and manufacturer names for display purposes.
-        :param db: Database
-        :returns: List of products with category and manufacturer names
-        """
-        db = db or Database()
-        data = db.fetch_data("SELECT * FROM products")
-        
-        products_for_display = []
-        for row in data:
-            category = Category.select_by_id(row[2])  
-            manufacturer = Company.select_by_id(row[3]) 
-            
-            product_display = {
+            product_info = {
                 'id': row[0],
                 'name': row[1],
-                'description': row[7],
-                'category_name': category.name if category else None,
-                'manufacturer_name': manufacturer.name if manufacturer else None,
-                'price': row[4],
-                'quantity': row[5],
-                'code': row[6]
+                'description': row[2],
+                'category_name': row[3],
+                'manufacturer_name': row[4],
+                'price': row[5],
+                'quantity': row[6],
+                'code': row[7],
                 }
-            products_for_display.append(product_display)
-        return products_for_display
+            products.append(product_info)
+        return products
 
-
-        
     # Getters and setters for the attributes
 
     @property
@@ -110,7 +97,9 @@ class Product:
     
     @name.setter
     def name(self, value):
-        if not isinstance(value, str):
+        if not value:
+            raise ValueError("Name cannot be empty")
+        elif not isinstance(value, str):
             raise TypeError("Name must be a string")
         self._name = value
         self._last_update = datetime.now()
@@ -158,10 +147,13 @@ class Product:
 
     @price.setter
     def price(self, value):
-        if not isinstance(value, float):
+        if not value:
+            raise ValueError("Price cannot be empty")
+        elif not isinstance(value, float):
             raise TypeError("Price must be a float")
-        if value <= 0:
+        elif value <= 0:
             raise ValueError("Price must be greater than 0")
+        
         self._price = value
         self._last_update = datetime.now()
 
@@ -171,10 +163,13 @@ class Product:
 
     @quantity.setter
     def quantity(self, value):
-        if not isinstance(value, int):
+        if not value:
+            raise ValueError("Quantity cannot be empty")
+        elif not isinstance(value, int):
             raise TypeError("Quantity must be an integer")
-        if value < 0:
+        elif value < 0:
             raise ValueError("Quantity must be greater than or equal to 0")
+        
         self._quantity = value
         self._last_update = datetime.now()
 

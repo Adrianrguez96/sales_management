@@ -27,8 +27,8 @@ class InventoryController:
             raise ValueError("Product already exists")
         
         try:
-            price = float(price)
-            quantity = int(quantity)
+            price = float(price) if price else None
+            quantity = int(quantity) if quantity else None
 
             product = Product(name, category_id, manufacturer_id, price, quantity)
             product.save()
@@ -48,4 +48,6 @@ class InventoryController:
         Get all products from the database
         :returns: list
         """
-        return Product.select_all()
+        products = Product.select_all()
+        
+        return products
