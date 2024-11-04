@@ -1,3 +1,5 @@
+# /utils/table.py
+
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 class Table:

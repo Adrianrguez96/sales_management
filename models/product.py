@@ -4,6 +4,7 @@ from datetime import datetime
 
 from database.database import Database
 from utils.barCode import BarCode
+from utils.type import Type
 
 class Product:
     def __init__(self, name, category_id, manufacturer_id, price, quantity, description= ""):
@@ -120,6 +121,9 @@ class Product:
             db: Database    
         :returns: list
         """
+        if not Type.is_float(price):
+            raise ValueError("Price must be number or decimal")
+        
         db = db or Database()
         data = db.fetch_data(
             """
@@ -142,7 +146,9 @@ class Product:
             db: Database    
         :returns: list
         """
-
+        if not Type.is_int(quantity):
+            raise ValueError("Quantity must be number")
+        
         db = db or Database()
         data = db.fetch_data(
             """
