@@ -1,6 +1,6 @@
 # /views/category_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem, QDialog
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
 from utils.message_service import MessageService    
 from utils.table import Table
@@ -47,15 +47,12 @@ class CategoryView(QWidget):
 
         if self.add_category_window.exec_() == QDialog.Accepted:
             results = self.add_category_window.results
-            print(results[0])
-
             Table.add_row(self.categoryTable, (results[0], results[1]))
 
     def open_search_category_window(self):
         """
         Open the search category window
         """
-
         self.search_category_window = SearchWindow("category")
         
         if self.search_category_window.exec_() == QDialog.Accepted:

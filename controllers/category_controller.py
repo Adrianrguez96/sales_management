@@ -54,6 +54,7 @@ class CategoryController:
         match search_options:
             case "Name":
                 return Category.select_by_partial_name(search_input)
+            #TODO: Implement Creation Date and Last Update
             case "Creation Date":
                 return Category.select_by_creation_date(search_input)
             case "Last Update":

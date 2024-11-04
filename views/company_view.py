@@ -1,8 +1,9 @@
 # /views/company_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
 from utils.message_service import MessageService
+from utils.table import Table
 import logging
 
 # Import the controller and views
@@ -26,7 +27,7 @@ class CompanyView(QWidget):
         try:
             companies = CompanyController.get_companies()
             for company in companies:
-                self.add_table_company(company.name, company.description, company.factory_code)
+                Table.add_row(self.companyTable, (company.name, company.description, company.factory_code))
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the companies")
@@ -34,8 +35,10 @@ class CompanyView(QWidget):
 
     def open_add_company_window(self):
         self.add_product_window = AddCompanyWindow()
-        self.add_product_window.company_added.connect(self.add_table_company) 
-        self.add_product_window.exec_()  
+
+        if self.add_product_window.exec_() == QDialog.Accepted:
+            results = self.add_product_window.results
+            Table.add_row(self.companyTable, (results[0], results[1], results[2]))
 
     def open_search_company_window(self):
         """
@@ -43,16 +46,3 @@ class CompanyView(QWidget):
         """
         self.search_company_window = SearchWindow("company",["name","factory code"])
         self.search_company_window.exec_()
-
-    def add_table_company(self,name,description,factory_code):
-        """
-        Add a new row to the companyTable
-        :param
-            name: str
-            description: str
-            factory_code: int
-        """
-        self.companyTable.setRowCount(self.companyTable.rowCount()+1)
-        self.companyTable.setItem(self.companyTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.companyTable.setItem(self.companyTable.rowCount()-1,1,QTableWidgetItem(description))
-        self.companyTable.setItem(self.companyTable.rowCount()-1,2,QTableWidgetItem(str(factory_code)))

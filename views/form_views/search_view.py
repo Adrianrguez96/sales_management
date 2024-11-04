@@ -87,6 +87,7 @@ class SearchWindow(QDialog):
 
             self.accept()
             return self.results
+        
         except ValueError as e:
             MessageService.show_warning("Error Searching", str(e))
         except Exception as e:
