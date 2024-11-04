@@ -80,6 +80,22 @@ class Category:
         data = db.fetch_data("SELECT * FROM categories WHERE name = ?", (name.lower(),))
         return cls(data[0][1], data[0][2]) if data else None
     
+    @classmethod
+    def select_by_partial_name(cls,name,db=None):
+        """
+        Select a category by its partial name
+        
+        :param 
+            name: str
+            db: Database
+
+        :returns: id, name, description
+        """
+
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM categories WHERE name LIKE ?", (f"{name.lower()}%",))
+        return data if data else ()
+    
     # Decorators methods
 
     @staticmethod

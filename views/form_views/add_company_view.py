@@ -2,20 +2,21 @@
 
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal
 from utils.message_service import MessageService
+import logging
 
 from controllers.company_controller import CompanyController
 
 class AddCompanyWindow(QDialog):
-
-    company_added = pyqtSignal(str, str, int)
 
     def __init__(self):
         """
         Initializes the AddCompanyWindow class
         """
         super().__init__()
+
+        self.results = ()
+
         uic.loadUi('design/add_company_form.ui', self)
 
         # Basic windows Settings
@@ -35,9 +36,18 @@ class AddCompanyWindow(QDialog):
 
         try:
             CompanyController.add_company(name, description, factory_code)
-            self.company_added.emit(name, description, factory_code)
+            self.results = (name, description, factory_code)
+
+            self.nameInput.clear()
+            self.descriptionInput.clear()
+            self.companyCodeInput.clear()
+
             self.accept()
+
         except ValueError as e:
             MessageService.show_warning("Error Adding Company", str(e))
+            logging.error(f"Error adding company: {e}")
+
         except Exception as e:
             MessageService.show_critical_warning("Critical Error", str(e))
+            logging.critical(f"Error adding company: {e}")

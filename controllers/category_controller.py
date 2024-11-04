@@ -35,3 +35,29 @@ class CategoryController:
         :returns: list
         """
         return Category.select_all()
+    
+    @staticmethod
+    def search_category(search_options, search_input):
+        """
+        Search for categories in the database
+
+        :params
+            search_options: list
+            search_input: str
+
+        :returns: list
+        """
+
+        if not search_input:
+            raise ValueError("Search input cannot be empty")
+
+        match search_options:
+            case "Name":
+                return Category.select_by_partial_name(search_input)
+            #TODO: Implement Creation Date and Last Update
+            case "Creation Date":
+                return Category.select_by_creation_date(search_input)
+            case "Last Update":
+                return Category.select_by_last_update(search_input)
+            case _:
+                raise ValueError("Search option not found")

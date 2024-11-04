@@ -1,13 +1,15 @@
 # /views/inventory_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
-from utils.message_service import MessageService    
+from utils.message_service import MessageService
+from utils.table import Table
 import logging 
 
 # Import the controller and views
 from controllers.inventory_controller import InventoryController
 from views.form_views.add_product_view import AddProductWindow
+from views.form_views.search_view import SearchWindow
 
 class InventoryView(QWidget):
     def __init__(self):
@@ -25,7 +27,7 @@ class InventoryView(QWidget):
         try:
             products = InventoryController.get_products()
             for product in products:
-                self.add_table_product(product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity'])
+                Table.add_row(self.inventoryTable, (product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity']))
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the products") 
@@ -37,25 +39,27 @@ class InventoryView(QWidget):
         Open the add product window
         """
         self.add_product_window = AddProductWindow()
-        self.add_product_window.product_added.connect(self.add_table_product)
-        self.add_product_window.exec_()  
+
+        if self.add_product_window.exec_()  == QDialog.Accepted:
+            results = self.add_product_window.results
+            Table.add_row(self.inventoryTable, (results[0], results[1], results[2], results[3], results[4]))
 
     def open_search_product_window(self):
-        pass
+        """
+        Open the search product window
+        """
+        self.search_product_window = SearchWindow("inventory",["name","category","company","price","quantity"])
 
-    def add_table_product(self, name, category, company, price, quantity):
-        """
-        Add a new row to the product table
-        :param
-            name: str
-            category: str
-            company: str
-            price: float
-            quantity: int
-        """
-        self.inventoryTable.setRowCount(self.inventoryTable.rowCount()+1)
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,1,QTableWidgetItem(category))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,2,QTableWidgetItem(company))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,3,QTableWidgetItem(str(price)))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,4,QTableWidgetItem(str(quantity)))
+        if self.search_product_window.exec_() == QDialog.Accepted:
+            result = self.search_product_window.results
+
+            if not result:
+                MessageService.show_warning("No results found", "No products found with the given search options")
+                logging.info("No results found")
+                return
+            Table.clear(self.inventoryTable)
+            for product in result:
+                Table.add_row(self.inventoryTable, (product[1], product[3], product[4], product[5], product[6]))
+            
+            logging.info("Search results found")
+

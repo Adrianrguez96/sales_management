@@ -39,3 +39,31 @@ class CompanyController:
         :returns: list
         """
         return Company.select_all()
+    
+    @staticmethod
+    def search_company(search_option, search_input):
+        """
+        Search for companies in the database
+
+        :params
+            search_options: list
+            search_input: str
+
+        :returns: list
+        """
+
+        if not search_input:
+            raise ValueError("Search input cannot be empty")
+
+        match search_option:
+            case "Name":
+                return Company.select_by_partial_name(search_input)
+            case "Factory code":
+                return Company.select_by_partial_factory_code(search_input)
+            #TODO: Implement Creation Date and Last Update
+            case "Creation Date":
+                return Company.select_by_creation_date(search_input)
+            case "Last Update":
+                return Company.select_by_last_update(search_input)
+            case _:
+                raise ValueError("Search option not found")

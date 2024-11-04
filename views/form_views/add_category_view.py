@@ -2,21 +2,22 @@
 
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal
 from utils.message_service import MessageService
+import logging
 
 # Import the controller
 from controllers.category_controller import CategoryController
 
 class AddCategoryWindow(QDialog):
 
-    category_added = pyqtSignal(str, str)
-
     def __init__(self):
         """
         Initializes the AddCategoryWindow class
         """
         super().__init__()
+
+        self.results = ()
+
         uic.loadUi('design/add_category_form.ui', self)
 
         self.setWindowTitle("Sales Management - Add Category")
@@ -34,10 +35,17 @@ class AddCategoryWindow(QDialog):
 
         try:
             CategoryController.add_category(name, description)
-            self.category_added.emit(name, description)
+            self.results = (name, description)
+
+            self.nameInput.clear()
+            self.descriptionInput.clear()  
+            
             self.accept()
+
         except ValueError as e:
             MessageService.show_warning("Error Adding Category", str(e))
+            logging.error(f"Error adding category: {e}")
         except Exception as e:
             MessageService.show_critical_warning("Critical Error", str(e))
+            logging.critical(f"Error adding category: {e}")
         

@@ -1,13 +1,15 @@
 # /views/company_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
 from utils.message_service import MessageService
+from utils.table import Table
 import logging
 
 # Import the controller and views
 from controllers.company_controller import CompanyController
 from views.form_views.add_company_view import AddCompanyWindow
+from views.form_views.search_view import SearchWindow
 
 class CompanyView(QWidget):
     def __init__(self):
@@ -25,7 +27,7 @@ class CompanyView(QWidget):
         try:
             companies = CompanyController.get_companies()
             for company in companies:
-                self.add_table_company(company.name, company.description, company.factory_code)
+                Table.add_row(self.companyTable, (company.name, company.description, company.factory_code))
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the companies")
@@ -33,22 +35,27 @@ class CompanyView(QWidget):
 
     def open_add_company_window(self):
         self.add_product_window = AddCompanyWindow()
-        self.add_product_window.company_added.connect(self.add_table_company) 
-        self.add_product_window.exec_()  
+
+        if self.add_product_window.exec_() == QDialog.Accepted:
+            results = self.add_product_window.results
+            Table.add_row(self.companyTable, (results[0], results[1], results[2]))
 
     def open_search_company_window(self):
-        pass
-        print("Search company")
+        """
+        Open the search company window
+        """
+        self.search_company_window = SearchWindow("company",["name","factory code"])
 
-    def add_table_company(self,name,description,factory_code):
-        """
-        Add a new row to the companyTable
-        :param
-            name: str
-            description: str
-            factory_code: int
-        """
-        self.companyTable.setRowCount(self.companyTable.rowCount()+1)
-        self.companyTable.setItem(self.companyTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.companyTable.setItem(self.companyTable.rowCount()-1,1,QTableWidgetItem(description))
-        self.companyTable.setItem(self.companyTable.rowCount()-1,2,QTableWidgetItem(str(factory_code)))
+        if self.search_company_window.exec_() == QDialog.Accepted:
+            result = self.search_company_window.results
+
+            if not result:
+                MessageService.show_warning("No results found", "No companies found with the given search options")
+                logging.info("No results found")
+                return
+            
+            Table.clear(self.companyTable)
+            for company in result:
+                Table.add_row(self.companyTable, (company[1], company[2], company[3]))
+            
+            logging.info("Search results found")
