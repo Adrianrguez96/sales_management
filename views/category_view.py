@@ -44,7 +44,12 @@ class CategoryView(QWidget):
         Open the add category window 
         """
         self.add_category_window = AddCategoryWindow()
-        self.add_category_window.exec_()
+
+        if self.add_category_window.exec_() == QDialog.Accepted:
+            results = self.add_category_window.results
+            print(results[0])
+
+            Table.add_row(self.categoryTable, (results[0], results[1]))
 
     def open_search_category_window(self):
         """

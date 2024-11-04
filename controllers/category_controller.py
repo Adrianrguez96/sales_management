@@ -54,7 +54,9 @@ class CategoryController:
         match search_options:
             case "Name":
                 return Category.select_by_partial_name(search_input)
-            case "Update Date":
+            case "Creation Date":
+                return Category.select_by_creation_date(search_input)
+            case "Last Update":
                 return Category.select_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
