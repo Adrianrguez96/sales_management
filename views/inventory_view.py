@@ -49,4 +49,17 @@ class InventoryView(QWidget):
         Open the search product window
         """
         self.search_product_window = SearchWindow("inventory",["name","category","company","price","quantity"])
-        self.search_product_window.exec_()
+
+        if self.search_product_window.exec_() == QDialog.Accepted:
+            result = self.search_product_window.results
+
+            if not result:
+                MessageService.show_warning("No results found", "No products found with the given search options")
+                logging.info("No results found")
+                return
+            Table.clear(self.inventoryTable)
+            for product in result:
+                Table.add_row(self.inventoryTable, (product[1], product[3], product[4], product[5], product[6]))
+            
+            logging.info("Search results found")
+

@@ -88,6 +88,74 @@ class Product:
                 }
             products.append(product_info)
         return products
+    
+    @classmethod
+    def search_product_by_partial_name(cls, name, db=None):
+        """
+        Search for products by partial name
+        :param
+            name: str
+            db: Database    
+        :returns: list
+        """
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+            p.price, p.quantity, p.code
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            JOIN manufacturer m ON p.manufacturer_id = m.id
+            WHERE LOWER(p.name) LIKE ?
+            """, (f"{name.lower()}%",))
+        
+        return data if data else ()
+    
+    @classmethod
+    def search_product_by_price(cls, price, db = None):
+        """
+        Search for products by price
+        :param
+            price: str
+            db: Database    
+        :returns: list
+        """
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE p.price = ?
+           """, (price,))
+        
+        return data if data else ()
+    
+    @classmethod
+    def search_product_by_quantity(cls, quantity, db = None):
+        """
+        Search for products by quantity
+        :param
+            quantity: str
+            db: Database    
+        :returns: list
+        """
+
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE p.quantity = ?
+           """, (quantity,))
+        
+        return data if data else ()
+        
 
     # Getters and setters for the attributes
 
