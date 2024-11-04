@@ -2,7 +2,6 @@
 
 from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal
 from utils.message_service import MessageService 
 import logging
 
@@ -13,10 +12,11 @@ from controllers.inventory_controller import InventoryController
 
 class AddProductWindow(QDialog):
 
-    product_added = pyqtSignal(str, str, str, float, int)
-
     def __init__(self):
         super().__init__()
+
+        self.results = ()
+
         uic.loadUi('design/add_product_form.ui', self)
 
         # Basic windows Settings
@@ -42,12 +42,14 @@ class AddProductWindow(QDialog):
         
         try:
             product = InventoryController.add_product(name, category_id, manufacturer_id, price, quantity)
-            self.product_added.emit(product.name, product.category_name, product.manufacturer_name, product.price, product.quantity)
+            self.results = (product.name, product.category_name, product.manufacturer_name, product.price, product.quantity)
             self.accept()
         except ValueError as e:
             MessageService.show_warning("Error Adding Product", str(e))
+            logging.error(f"Error adding product: {e}")
         except Exception as e:
             MessageService.show_critical_warning("Critical Error", str(e))
+            logging.error(f"Critical error adding product: {e}")
     
     def load_categories_select(self):
         """

@@ -1,8 +1,9 @@
 # /views/inventory_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
-from utils.message_service import MessageService    
+from utils.message_service import MessageService
+from utils.table import Table
 import logging 
 
 # Import the controller and views
@@ -26,7 +27,7 @@ class InventoryView(QWidget):
         try:
             products = InventoryController.get_products()
             for product in products:
-                self.add_table_product(product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity'])
+                Table.add_row(self.inventoryTable, (product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity']))
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the products") 
@@ -38,8 +39,10 @@ class InventoryView(QWidget):
         Open the add product window
         """
         self.add_product_window = AddProductWindow()
-        self.add_product_window.product_added.connect(self.add_table_product)
-        self.add_product_window.exec_()  
+
+        if self.add_product_window.exec_()  == QDialog.Accepted:
+            results = self.add_product_window.results
+            Table.add_row(self.inventoryTable, (results[0], results[1], results[2], results[3], results[4]))
 
     def open_search_product_window(self):
         """
@@ -47,20 +50,3 @@ class InventoryView(QWidget):
         """
         self.search_product_window = SearchWindow("inventory",["name","category","company","price","quantity"])
         self.search_product_window.exec_()
-
-    def add_table_product(self, name, category, company, price, quantity):
-        """
-        Add a new row to the product table
-        :param
-            name: str
-            category: str
-            company: str
-            price: float
-            quantity: int
-        """
-        self.inventoryTable.setRowCount(self.inventoryTable.rowCount()+1)
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,1,QTableWidgetItem(category))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,2,QTableWidgetItem(company))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,3,QTableWidgetItem(str(price)))
-        self.inventoryTable.setItem(self.inventoryTable.rowCount()-1,4,QTableWidgetItem(str(quantity)))
