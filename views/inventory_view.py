@@ -8,6 +8,7 @@ import logging
 # Import the controller and views
 from controllers.inventory_controller import InventoryController
 from views.form_views.add_product_view import AddProductWindow
+from views.form_views.search_view import SearchWindow
 
 class InventoryView(QWidget):
     def __init__(self):
@@ -41,7 +42,11 @@ class InventoryView(QWidget):
         self.add_product_window.exec_()  
 
     def open_search_product_window(self):
-        pass
+        """
+        Open the search product window
+        """
+        self.search_product_window = SearchWindow("Product",["name","category","company","price","quantity"])
+        self.search_product_window.exec_()
 
     def add_table_product(self, name, category, company, price, quantity):
         """

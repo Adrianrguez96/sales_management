@@ -8,6 +8,7 @@ import logging
 # Import the controller and views
 from controllers.company_controller import CompanyController
 from views.form_views.add_company_view import AddCompanyWindow
+from views.form_views.search_view import SearchWindow
 
 class CompanyView(QWidget):
     def __init__(self):
@@ -37,8 +38,11 @@ class CompanyView(QWidget):
         self.add_product_window.exec_()  
 
     def open_search_company_window(self):
-        pass
-        print("Search company")
+        """
+        Open the search company window
+        """
+        self.search_company_window = SearchWindow("Company",["name","factory code"])
+        self.search_company_window.exec_()
 
     def add_table_company(self,name,description,factory_code):
         """

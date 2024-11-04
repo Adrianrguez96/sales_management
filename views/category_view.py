@@ -50,7 +50,8 @@ class CategoryView(QWidget):
         """
         Open the search category window
         """
-        self.search_category_window = SearchWindow()
+
+        self.search_category_window = SearchWindow("Category")
         self.search_category_window.exec_()
 
     def add_table_category(self,name,description):
