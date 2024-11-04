@@ -45,7 +45,7 @@ class InventoryView(QWidget):
         """
         Open the search product window
         """
-        self.search_product_window = SearchWindow("Product",["name","category","company","price","quantity"])
+        self.search_product_window = SearchWindow("inventory",["name","category","company","price","quantity"])
         self.search_product_window.exec_()
 
     def add_table_product(self, name, category, company, price, quantity):

@@ -2,6 +2,13 @@
 
 from PyQt5.QtWidgets import QWidget, QDialog
 from PyQt5 import uic
+from utils.message_service import MessageService
+import logging
+
+# controllers imports
+from controllers.inventory_controller import InventoryController
+from controllers.category_controller import CategoryController
+from controllers.company_controller import CompanyController
 
 class SearchWindow(QDialog):
     def __init__(self,search_type,options = "name"):
@@ -34,6 +41,7 @@ class SearchWindow(QDialog):
 
         :param text: str
         """
+
         html_title = self.searchTitle.toHtml()
         new_html_title = html_title.replace('Search',text)
         self.searchTitle.setHtml(new_html_title)
@@ -45,11 +53,37 @@ class SearchWindow(QDialog):
         :param options: str or list
         """
 
+        general_options = ["Creation Date","Last Update"]
+
         if isinstance(options, list):
             self.searchSelect.addItems(option.capitalize() for option in options)
+        else:
+            general_options.insert(0, "Name")
         
-        self.searchSelect.addItems(["Creation Date","Last Update"])
+        self.searchSelect.addItems(general_options)
 
     def search(self):
-        print("Search")
-        self.accept()
+        """
+        Searches the database
+        """
+
+        # Get the search options
+        search_options = self.searchSelect.currentText()
+        search_input = self.searchInput.text()
+
+        try:
+            match self.search_type:
+                case "inventory":
+                    InventoryController.search_product(search_options,search_input)
+                case "category":
+                    CategoryController.search_category(search_options,search_input)
+                case "company":
+                    CompanyController.search_company(search_options,search_input)
+                case _:
+                    MessageService.show_critical_warning("Critical error","Search type not found")
+                    logging.error(f"Search type {self.search_type} not found")
+            self.accept()
+        except Exception as e:
+            MessageService.show_critical_warning("Critical error", str(e))
+
+                

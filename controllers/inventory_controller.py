@@ -52,3 +52,16 @@ class InventoryController:
         products = Product.select_all()
         
         return products
+    
+    @staticmethod
+    def search_product(search_option, search_input):
+        """
+        Search for products in the database
+
+        :params
+            search_options: list
+            search_input: str
+
+        :returns: list
+        """
+        print(search_option)

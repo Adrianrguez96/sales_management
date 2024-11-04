@@ -35,3 +35,16 @@ class CategoryController:
         :returns: list
         """
         return Category.select_all()
+    
+    @staticmethod
+    def search_category(search_option, search_input):
+        """
+        Search for categories in the database
+
+        :params
+            search_options: list
+            search_input: str
+
+        :returns: list
+        """
+        print(search_option)

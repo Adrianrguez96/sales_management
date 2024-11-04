@@ -41,7 +41,7 @@ class CompanyView(QWidget):
         """
         Open the search company window
         """
-        self.search_company_window = SearchWindow("Company",["name","factory code"])
+        self.search_company_window = SearchWindow("company",["name","factory code"])
         self.search_company_window.exec_()
 
     def add_table_company(self,name,description,factory_code):

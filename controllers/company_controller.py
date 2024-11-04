@@ -39,3 +39,16 @@ class CompanyController:
         :returns: list
         """
         return Company.select_all()
+    
+    @staticmethod
+    def search_company(search_option, search_input):
+        """
+        Search for companies in the database
+
+        :params
+            search_options: list
+            search_input: str
+
+        :returns: list
+        """
+        print(search_option)
