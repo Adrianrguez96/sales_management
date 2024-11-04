@@ -1,8 +1,9 @@
 # /views/category_view.py
 
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QTableWidgetItem, QDialog
 from PyQt5 import uic
 from utils.message_service import MessageService    
+from utils.table import Table
 import logging   
 
 
@@ -30,7 +31,7 @@ class CategoryView(QWidget):
         try:
             categories = CategoryController.get_categories()
             for category in categories:
-                self.add_table_category(category.name, category.description)
+                Table.add_row(self.categoryTable, (category.name, category.description))
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the categories") 
@@ -42,9 +43,8 @@ class CategoryView(QWidget):
         """ 
         Open the add category window 
         """
-        self.add_category_window = AddCategoryWindow()  
-        self.add_category_window.category_added.connect(self.add_table_category)
-        self.add_category_window.exec_()  
+        self.add_category_window = AddCategoryWindow()
+        self.add_category_window.exec_()
 
     def open_search_category_window(self):
         """
@@ -52,15 +52,17 @@ class CategoryView(QWidget):
         """
 
         self.search_category_window = SearchWindow("category")
-        self.search_category_window.exec_()
+        
+        if self.search_category_window.exec_() == QDialog.Accepted:
+            result = self.search_category_window.results
 
-    def add_table_category(self,name,description):
-        """
-        Add a new row to the categoryTable
-        :param
-            name: str
-            description: str
-        """
-        self.categoryTable.setRowCount(self.categoryTable.rowCount()+1)
-        self.categoryTable.setItem(self.categoryTable.rowCount()-1,0,QTableWidgetItem(name))
-        self.categoryTable.setItem(self.categoryTable.rowCount()-1,1,QTableWidgetItem(description))
+            if not result:
+                MessageService.show_warning("No results found", "No categories found with the given search options")
+                logging.info("No results found")
+                return
+            
+            Table.clear(self.categoryTable)
+            for category in result:
+                Table.add_row(self.categoryTable, (category[1], category[2]))
+            
+            logging.info("Search results found")

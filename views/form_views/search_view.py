@@ -11,6 +11,7 @@ from controllers.category_controller import CategoryController
 from controllers.company_controller import CompanyController
 
 class SearchWindow(QDialog):
+
     def __init__(self,search_type,options = "name"):
         """
         Initializes the SearchWindow class
@@ -23,6 +24,7 @@ class SearchWindow(QDialog):
 
         self.search_type = search_type
         self.options = options
+        self.results = ()
 
         uic.loadUi('design/search_form.ui', self)
 
@@ -74,15 +76,19 @@ class SearchWindow(QDialog):
         try:
             match self.search_type:
                 case "inventory":
-                    InventoryController.search_product(search_options,search_input)
+                    self.results = InventoryController.search_product(search_options,search_input)
                 case "category":
-                    CategoryController.search_category(search_options,search_input)
+                    self.results =CategoryController.search_category(search_options,search_input)
                 case "company":
-                    CompanyController.search_company(search_options,search_input)
+                    self.results =CompanyController.search_company(search_options,search_input)
                 case _:
                     MessageService.show_critical_warning("Critical error","Search type not found")
                     logging.error(f"Search type {self.search_type} not found")
+
             self.accept()
+            return self.results
+        except ValueError as e:
+            MessageService.show_warning("Error Searching", str(e))
         except Exception as e:
             MessageService.show_critical_warning("Critical error", str(e))
 
