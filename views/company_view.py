@@ -45,4 +45,17 @@ class CompanyView(QWidget):
         Open the search company window
         """
         self.search_company_window = SearchWindow("company",["name","factory code"])
-        self.search_company_window.exec_()
+
+        if self.search_company_window.exec_() == QDialog.Accepted:
+            result = self.search_company_window.results
+
+            if not result:
+                MessageService.show_warning("No results found", "No companies found with the given search options")
+                logging.info("No results found")
+                return
+            
+            Table.clear(self.companyTable)
+            for company in result:
+                Table.add_row(self.companyTable, (company[1], company[2], company[3]))
+            
+            logging.info("Search results found")

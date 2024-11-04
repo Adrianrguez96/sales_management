@@ -87,6 +87,34 @@ class Company:
         data = db.fetch_data("SELECT * FROM manufacturer WHERE factory_code = ?", (factory_code,))
         return cls(data[0][1], data[0][2], data[0][3]) if data else None
     
+    @classmethod
+    def select_by_partial_name(cls, name, db=None):
+        """
+        Select a manufacturer by its partial name
+        :param
+            name: str
+            db: Database
+
+        :returns: id, name, description, factory_code
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM manufacturer WHERE name LIKE ?", (f"{name.lower()}%",))
+        return data if data else ()
+    
+    @classmethod
+    def select_by_partial_factory_code(cls, factory_code, db=None):
+        """
+        Select a manufacturer by its partial factory code
+        :param
+            factory_code: str
+            db: Database
+
+        :returns: id, name, description, factory_code
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM manufacturer WHERE factory_code LIKE ?", (f"{factory_code}%",))
+        return data if data else ()
+    
     # Decorators methods
 
     @staticmethod
