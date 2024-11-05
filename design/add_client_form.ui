@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>addProduct</class>
+ <widget class="QWidget" name="addProduct">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Estilo para el QMainWindow */
+QMainWindow {
+    background-color: #121212; /* Fondo principal */
+    color: #FFFFFF; /* Texto principal */
+}
+
+/* Estilo para todos los QWidget */
+QWidget {
+    background-color: #1E1E1E; /* Fondo secundario */
+    color: #FFFFFF; /* Texto principal */
+}
+
+/* Estilo para botones (QPushButton) */
+QPushButton {
+    background-color: #4CAF50; /* Color de fondo de botones */
+    color: #FFFFFF; /* Texto en botones */
+    border: none; /* Sin bordes */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    min-width: 100px; /* Ancho mínimo */
+}
+
+/* Estilo para botones al pasar el ratón */
+QPushButton:hover {
+    background-color: #388E3C; /* Color de fondo al pasar el ratón */
+}
+
+/* Estilo para botones deshabilitados */
+QPushButton:disabled {
+    background-color: #555555; /* Color para botones deshabilitados */
+    color: #B0B0B0; /* Texto deshabilitado */
+}
+
+/* Estilo para campos de texto (QLineEdit, QTextEdit) */
+QLineEdit, QTextEdit {
+    background-color: #2A2A2A; /* Fondo de campos de texto */
+    color: #FFFFFF; /* Texto en campos de texto */
+    border: 1px solid #333333; /* Borde del campo de texto */
+    padding: 5px; /* Espaciado interno */
+    border-radius: 3px; /* Bordes redondeados */
+}
+
+/* Estilo para QLabel */
+QLabel {
+    color: #B0B0B0; /* Texto secundario */
+}
+
+/* Estilo para las listas (QListWidget, QListView) */
+QListWidget, QListView {
+    background-color: #1E1E1E; /* Fondo de la lista */
+    color: #FFFFFF; /* Texto en la lista */
+    border: 1px solid #333333; /* Borde de la lista */
+}
+
+/* Estilo para elementos seleccionados en listas */
+QListWidget::item:selected, QListView::item:selected {
+    background-color: #4CAF50; /* Color de fondo del elemento seleccionado */
+    color: #FFFFFF; /* Color del texto seleccionado */
+}
+
+/* Estilo para las barras de progreso (QProgressBar) */
+QProgressBar {
+    background-color: #2A2A2A; /* Fondo de la barra de progreso */
+    border: 1px solid #333333; /* Borde de la barra de progreso */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+QProgressBar::chunk {
+    background-color: #4CAF50; /* Color de la parte llena de la barra de progreso */
+}
+
+/* Estilo para las ComboBox */
+QComboBox {
+    background-color: #2A2A2A; /* Fondo de ComboBox */
+    color: #FFFFFF; /* Texto en ComboBox */
+    border: 1px solid #333333; /* Borde de ComboBox */
+    padding: 5px; /* Espaciado interno */
+    border-radius: 3px; /* Bordes redondeados */
+}
+
+/* Estilo para el menú desplegable en ComboBox */
+QComboBox QAbstractItemView {
+    background-color: #1E1E1E; /* Fondo del menú desplegable */
+    color: #FFFFFF; /* Texto en el menú desplegable */
+}
+
+/* Estilo para elementos seleccionados en ComboBox */
+QComboBox QAbstractItemView::item:selected {
+    background-color: #4CAF50; /* Color de fondo del elemento seleccionado */
+    color: #FFFFFF; /* Color del texto seleccionado */
+}
+
+/* Estilo para las barras de estado (QStatusBar) */
+QStatusBar {
+    background-color: #1E1E1E; /* Fondo de la barra de estado */
+    color: #B0B0B0; /* Texto en la barra de estado */
+}
+
+/* Estilo para cuadros de mensaje (QMessageBox) */
+QMessageBox {
+    background-color: #1E1E1E; /* Fondo de cuadros de mensaje */
+    color: #FFFFFF; /* Texto en cuadros de mensaje */
+}
+
+/* Estilo para los iconos (QIcon) */
+QPushButton::icon {
+    padding-right: 5px; /* Espaciado entre el icono y el texto */
+}
+
+/* Estilo para tablas (QTableWidget, QTableView) */
+QTableWidget, QTableView {
+    background-color: #1E1E1E; /* Fondo de la tabla */
+    color: #FFFFFF; /* Texto en la tabla */
+    border: 1px solid #333333; /* Borde de la tabla */
+}
+
+QTableWidget::item:selected, QTableView::item:selected {
+    background-color: #4CAF50; /* Color de fondo del elemento seleccionado en tabla */
+    color: #FFFFFF; /* Color del texto seleccionado en tabla */
+}
+
+/* Estilo para los elementos de la tabla al pasar el ratón */
+QTableWidget::item:hover, QTableView::item:hover {
+    background-color: #333333; /* Color de fondo al pasar el ratón sobre un elemento de la tabla */
+}
+
+/* Estilo para los mensajes de error */
+QErrorMessage {
+    background-color: #F44336; /* Fondo de mensajes de error */
+    color: #FFFFFF; /* Texto en mensajes de error */
+}
+
+/* Estilo para CheckBox */
+QCheckBox {
+    color: #FFFFFF; /* Texto en CheckBox */
+}
+
+QCheckBox::indicator:unchecked {
+    background-color: #2A2A2A; /* Fondo del CheckBox no marcado */
+    border: 1px solid #333333; /* Borde del CheckBox no marcado */
+}
+
+QCheckBox::indicator:checked {
+    background-color: #4CAF50; /* Fondo del CheckBox marcado */
+}
+
+/* Estilo para RadioButton */
+QRadioButton {
+    color: #FFFFFF; /* Texto en RadioButton */
+}
+
+QRadioButton::indicator:unchecked {
+    background-color: #2A2A2A; /* Fondo del RadioButton no marcado */
+    border: 1px solid #333333; /* Borde del RadioButton no marcado */
+}
+
+QRadioButton::indicator:checked {
+    background-color: #4CAF50; /* Fondo del RadioButton marcado */
+}
+</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>351</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="centerLayout">
+    <item>
+     <widget class="QTextBrowser" name="formTitle">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>500</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;Add Product&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:20px; margin-bottom:20px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2,sans-serif'; font-size:24pt; font-weight:600; color:#ffffff;&quot;&gt;Add Client&lt;/span&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2,sans-serif'; font-size:8pt; color:#ffffff;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <property name="rowWrapPolicy">
+       <enum>QFormLayout::WrapAllRows</enum>
+      </property>
+      <property name="labelAlignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="horizontalSpacing">
+       <number>15</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>9</number>
+      </property>
+      <property name="leftMargin">
+       <number>30</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>30</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="2" column="0">
+       <widget class="QLabel" name="nameLabel">
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="nameInput"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="emailLabel">
+        <property name="text">
+         <string>Email</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="emailInput"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="phoneLabel">
+        <property name="text">
+         <string>Phone</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="phoneInput"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="addressLabel">
+        <property name="text">
+         <string>Address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="addressInput"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="buttonsLayout">
+      <property name="spacing">
+       <number>32</number>
+      </property>
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnAdd">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Add Client</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCancel">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    background-color: #F44336; 
+}
+
+QPushButton#nombreBoton:hover {
+    background-color: #D32F2F;  */
+}
+
+
+QPushButton#nombreBoton:disabled {
+    background-color: #7E7E7E; 
+    color: #B0B0B0;
+}</string>
+        </property>
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
