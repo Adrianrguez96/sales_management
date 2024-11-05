@@ -8,6 +8,17 @@ from utils.type import Type
 
 class Product:
     def __init__(self, name, category_id, manufacturer_id, price, quantity, description= ""):
+        """
+        Initializes a new product object
+
+        :param
+            name: str
+            category_id: int
+            manufacturer_id: int
+            price: float
+            quantity: int    
+            description: str
+        """
         self.name = name
         self.description = description
         self.category_id = category_id
@@ -24,10 +35,16 @@ class Product:
                 f"creation_date={self._creation_date}, last_update={self._last_update})")
     
     def save(self):
+        """
+        Saves the product to the database
+
+        :returns: current product id
+        """
         db = Database()
-        db.execute_query("INSERT INTO products (name, description, category_id, manufacturer_id, price, quantity, code) "
+        current_id = db.execute_query("INSERT INTO products (name, description, category_id, manufacturer_id, price, quantity, code) "
                          "VALUES (?, ?, ?, ?, ?, ?, ?)",
                          (self._name, self._description, self._category_id, self._manufacturer_id, self._price, self._quantity, self._code))
+        return current_id
 
     @classmethod
     def select_by_id(cls, id):
@@ -240,6 +257,18 @@ class Product:
             """, (f"{name.lower()}%",))
         
         return data if data else ()
+    
+    @classmethod 
+    def delete (cls, product_id, db=None):
+        """
+        Delete a product from the database    
+        :param
+            product_id: int
+            db: Database
+        """
+        db = db or Database()
+        delete_id = db.execute_query("DELETE FROM products WHERE id = ?", (product_id,))
+        return delete_id
 
     @property
     def name(self):

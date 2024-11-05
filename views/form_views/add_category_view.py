@@ -34,8 +34,8 @@ class AddCategoryWindow(QDialog):
         description = self.descriptionInput.text()
 
         try:
-            CategoryController.add_category(name, description)
-            self.results = (name, description)
+            category_id = CategoryController.add_category(name, description)
+            self.results = (category_id,name, description)
 
             self.nameInput.clear()
             self.descriptionInput.clear()  

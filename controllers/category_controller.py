@@ -1,5 +1,4 @@
 from models.category import Category
-import logging
 
 class CategoryController:
 
@@ -20,11 +19,9 @@ class CategoryController:
             raise ValueError("Category already exists")
         try:
             category = Category(name, description)
-            category.save()
-            logging.info(f"Category {name} added successfully")
-            return category
+            category_id = category.save()
+            return category_id
         except Exception as e:
-            logging.error(f"Error adding category: {e}")
             raise e
     
     @staticmethod
@@ -60,3 +57,15 @@ class CategoryController:
                 return Category.select_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
+    
+    @staticmethod
+    def delete_category(category_id):
+        """
+        Delete a category from the database
+
+        :param category_id: int
+        """
+        try:
+            Category.delete(category_id)
+        except Exception as e:
+            raise e

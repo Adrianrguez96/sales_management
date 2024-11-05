@@ -87,6 +87,8 @@ class MessageService(QWidget):
         :param
             title: str
             message: str
+        
+        :return bool
         """
         
         msg = QMessageBox()
@@ -94,7 +96,9 @@ class MessageService(QWidget):
         msg.setText(message)
         msg.setWindowTitle(title)
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg.exec_()
+        response = msg.exec_()
+
+        return response == QMessageBox.Yes
         
 
     @staticmethod

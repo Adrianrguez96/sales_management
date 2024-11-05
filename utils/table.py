@@ -1,23 +1,29 @@
 # /utils/table.py
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 class Table:
 
     @staticmethod 
-    def add_row(table: QTableWidget, data: tuple):
+    def add_row(table: QTableWidget, data: tuple, extra_data = None):
         """
         Adds a new row to the specified QTableWidget.
         
         :param 
             table: QTableWidget instance
             data: tuple
+            extra_data: optional data (e.g., ID or QDate) to associate with the row, hidden from view
         """
 
-        table.insertRow(table.rowCount())  # Add a new row
+        row_position = table.rowCount()  # Get the current row position
+        table.insertRow(row_position)  # Add a new row
 
         for i, value in enumerate(data):  # Iterate over the data and set the values
-            table.setItem(table.rowCount() - 1, i, QTableWidgetItem(str(value)))  # Set the value
+            table.setItem(row_position, i, QTableWidgetItem(str(value)))  # Set the value
+
+        if extra_data is not None:
+            table.item(row_position, 0).setData(Qt.UserRole, extra_data)
 
     @staticmethod
     def clear(table: QTableWidget):

@@ -35,8 +35,8 @@ class AddCompanyWindow(QDialog):
         factory_code = int(self.companyCodeInput.text())
 
         try:
-            CompanyController.add_company(name, description, factory_code)
-            self.results = (name, description, factory_code)
+            company_id = CompanyController.add_company(name, description, factory_code)
+            self.results = (company_id,name, description, factory_code)
 
             self.nameInput.clear()
             self.descriptionInput.clear()
