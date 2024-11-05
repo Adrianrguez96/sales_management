@@ -136,6 +136,26 @@ class Category:
         return data if data else ()
     
     @classmethod
+    def update(cls, category_data, db=None):
+        """
+        Update a category in the database
+
+        :param 
+            category_data: Instance of Category containing the data to update
+            db: Database connection (optional)
+        """
+        db = db or Database()
+        query = """
+        UPDATE categories SET
+        name = CASE WHEN COALESCE(name, '') <> COALESCE(?, '') THEN ? ELSE name END,
+        description = CASE WHEN COALESCE(description, '') <> COALESCE(?, '') THEN ? ELSE description END
+        WHERE id = ?
+        """
+        db.execute_query(query, (category_data.name, category_data.name, category_data.description, category_data.description, category_data.id))
+
+
+    
+    @classmethod
     def delete(cls, category_id, db=None):
         """
         Delete a category from the database

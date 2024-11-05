@@ -25,7 +25,7 @@ class Product:
         self.manufacturer_id = manufacturer_id
         self.price = price
         self.quantity = quantity
-        self.code = BarCode.generate_barcode("038", "001")
+        self.code = BarCode.generate_barcode("038", "001") # TODO: Add the factory code
         self._creation_date = datetime.now()
         self._last_update = datetime.now()
 
@@ -55,10 +55,8 @@ class Product:
         """
         db = Database()
         data = db.fetch_data("SELECT * FROM products WHERE id = ?", (id,))
-        if data:
-            return Product(data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6])
-        else:
-            return None
+        return cls(name=data[0][1], description=data[0][2] or "",category_id=data[0][3], manufacturer_id=data[0][4],
+                   price=data[0][5], quantity=data[0][6],) if data else None
     
     @classmethod
     def select_by_name(cls, name, db=None):
@@ -71,10 +69,11 @@ class Product:
         """
         db = db or Database()
         data = db.fetch_data("SELECT * FROM products WHERE name = ?", (name.lower(),))
-        return cls(data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6]) if data else None
+        return cls(name=data[0][1], description=data[0][2] or "",category_id=data[0][3], manufacturer_id=data[0][4],
+                   price=data[0][5], quantity=data[0][6],) if data else None
     
     @classmethod
-    def select_product_by_price(cls, price, db = None):
+    def select_by_price(cls, price, db = None):
         """
         search for products by price
         :param
@@ -99,7 +98,7 @@ class Product:
         return data if data else ()
     
     @classmethod
-    def select_product_by_quantity(cls, quantity, db = None):
+    def select_by_quantity(cls, quantity, db = None):
         """
         search for products by quantity
         :param
@@ -124,7 +123,7 @@ class Product:
         return data if data else ()
     
     @classmethod
-    def select_product_by_category(cls, category, db = None):
+    def select_by_category(cls, category, db = None):
         """
         search for products by category
         :param
@@ -147,7 +146,7 @@ class Product:
         return data if data else ()
     
     @classmethod
-    def select_product_by_company(cls, company, db = None):
+    def select_by_company(cls, company, db = None):
         """
         search for products by company
         :param
@@ -170,7 +169,7 @@ class Product:
         return data if data else ()
     
     @classmethod
-    def select_product_by_creation_date(cls, date, db=None):
+    def select_by_creation_date(cls, date, db=None):
         """
         Select for products by creation date
         :param 
@@ -186,7 +185,7 @@ class Product:
         return data if data else ()
     
     @classmethod
-    def select_product_by_last_update(cls, date, db=None):
+    def select_by_last_update(cls, date, db=None):
         """
         Select for products by last update date
         :param 
@@ -237,7 +236,7 @@ class Product:
         return products
     
     @classmethod
-    def select_product_by_partial_name(cls, name, db=None):
+    def select_by_partial_name(cls, name, db=None):
         """
         Select for products by partial name
         :param
@@ -257,6 +256,30 @@ class Product:
             """, (f"{name.lower()}%",))
         
         return data if data else ()
+    
+    @classmethod
+    def update(cls, product_data, db=None):
+        """
+        Update a product in the database
+
+        :param 
+            product_data: Instance of Product containing the data to update
+            db: Database connection (optional)
+        """
+        db = db or Database()
+        query = """
+        UPDATE products SET
+        name = CASE WHEN COALESCE(name, '') <> COALESCE(?, '') THEN ? ELSE name END,
+        description = CASE WHEN COALESCE(description, '') <> COALESCE(?, '') THEN ? ELSE description END,
+        category_id = CASE WHEN COALESCE(category_id, '') <> COALESCE(?, '') THEN ? ELSE category_id END,
+        manufacturer_id = CASE WHEN COALESCE(manufacturer_id, '') <> COALESCE(?, '') THEN ? ELSE manufacturer_id END,
+        price = CASE WHEN COALESCE(price, '') <> COALESCE(?, '') THEN ? ELSE price END,
+        quantity = CASE WHEN COALESCE(quantity, '') <> COALESCE(?, '') THEN ? ELSE quantity END
+        WHERE id = ?
+        """
+        db.execute_query(query, (product_data.name, product_data.name, product_data.description, product_data.description, 
+                                 product_data.category_id, product_data.category_id, product_data.manufacturer_id, product_data.manufacturer_id,    
+                                 product_data.price, product_data.price, product_data.quantity, product_data.quantity, product_data.id))
     
     @classmethod 
     def delete (cls, product_id, db=None):
