@@ -47,7 +47,7 @@ class EditCompanyWindow(QDialog):
         """
         name = self.nameInput.text()
         description = self.descriptionInput.text()
-        factory_code = int(self.companyCodeInput.text())
+        factory_code = int(self.companyCodeInput.text()) if self.companyCodeInput.text() else None
 
         try:
             self.company.id = self._company_id
@@ -68,4 +68,3 @@ class EditCompanyWindow(QDialog):
             logging.warning(f"Error editing company: {e}") 
         except Exception as e:
             MessageService.show_critical_warning("Critical Error", str(e))
-            logging.error(f"Critical error editing company: {e}")
