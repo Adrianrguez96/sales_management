@@ -74,6 +74,12 @@ class ClientController:
         match search_option:
             case "Name":
                 return Client.select_by_partial_name(search_input)
+            case "Email":
+                return Client.select_by_partial_email(search_input)
+            case "Phone":
+                return Client.select_by_partial_phone(search_input)
+            case "Address":
+                return Client.select_by_partial_address(search_input)
             case "Creation Date":
                 return Client.select_by_creation_date(search_input)
             case "Last Update":

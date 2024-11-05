@@ -68,7 +68,7 @@ class ClientView(QWidget):
         """
         Open the search client window
         """
-        self.search_client_window = SearchWindow("client",["name","creation date","last update"])
+        self.search_client_window = SearchWindow("client",["name","email","phone","address"])
 
         if self.search_client_window.exec_() == QDialog.Accepted:
             result = self.search_client_window.results

@@ -97,6 +97,48 @@ class Client:
         data = db.fetch_data("SELECT * FROM clients WHERE name LIKE ?", (f"{name.lower()}%",))
         return data if data else ()
     
+    @classmethod 
+    def select_by_partial_email(cls, email, db=None):
+        """
+        Select a client by its partial email
+        :param
+            email: str
+            db: Database
+
+        :returns: id, name, email, phone, address
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM clients WHERE email LIKE ?", (f"{email.lower()}%",))
+        return data if data else ()
+    
+    @classmethod 
+    def select_by_partial_phone(cls, phone, db=None):
+        """
+        Select a client by its partial phone
+        :param
+            phone: str
+            db: Database
+
+        :returns: id, name, email, phone, address
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM clients WHERE phone LIKE ?", (f"{phone.lower()}%",))
+        return data if data else ()
+    
+    @classmethod 
+    def select_by_partial_address(cls, address, db=None):
+        """
+        Select a client by its partial address
+        :param
+            address: str
+            db: Database
+
+        :returns: id, name, email, phone, address
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM clients WHERE address LIKE ?", (f"{address.lower()}%",))
+        return data if data else ()
+    
     @classmethod
     def select_by_creation_date(cls, date, db=None):
         """

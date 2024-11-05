@@ -9,6 +9,7 @@ import logging
 from controllers.inventory_controller import InventoryController
 from controllers.category_controller import CategoryController
 from controllers.company_controller import CompanyController
+from controllers.client_controller import ClientController
 
 class SearchWindow(QDialog):
 
@@ -102,6 +103,8 @@ class SearchWindow(QDialog):
                     self.results =CategoryController.search_category(search_options,search_input)
                 case "company":
                     self.results =CompanyController.search_company(search_options,search_input)
+                case "client":
+                    self.results = ClientController.search_client(search_options,search_input)
                 case _:
                     MessageService.show_critical_warning("Critical error","Search type not found")
                     logging.error(f"Search type {self.search_type} not found")
