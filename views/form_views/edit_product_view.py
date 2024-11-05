@@ -45,8 +45,11 @@ class EditProductWindow(QDialog):
             self.quantityInput.setText(str(self.product.quantity))
 
             # Set select fields with the product's current data
-            self.categorySelect.setCurrentIndex(self.categorySelect.findData(self.product.category_id))
-            self.companySelect.setCurrentIndex(self.companySelect.findData(self.product.manufacturer_id))
+            index_category = self.categorySelect.findData(self.product.category_id) 
+            index_company = self.companySelect.findData(self.product.manufacturer_id)
+            
+            self.categorySelect.setCurrentIndex(index_category)
+            self.companySelect.setCurrentIndex(index_company)
 
         except Exception as e:
             MessageService.show_critical_warning("Error", f"There was an error loading the product: {e}")

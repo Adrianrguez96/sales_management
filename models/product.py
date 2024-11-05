@@ -214,8 +214,8 @@ class Product:
         SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
         p.price, p.quantity, p.code
         FROM products p
-        JOIN categories c ON p.category_id = c.id
-        JOIN manufacturer m ON p.manufacturer_id = m.id
+        LEFT JOIN categories c ON p.category_id = c.id
+        LEFT JOIN manufacturer m ON p.manufacturer_id = m.id
         """
 
         data = db.fetch_data(query)
@@ -226,8 +226,8 @@ class Product:
                 'id': row[0],
                 'name': row[1],
                 'description': row[2],
-                'category_name': row[3],
-                'manufacturer_name': row[4],
+                'category_name': row[3] if row[3] is not None else "No Assigned",
+                'manufacturer_name': row[4] if row[4] is not None else "No Assigned",
                 'price': row[5],
                 'quantity': row[6],
                 'code': row[7],
