@@ -57,6 +57,135 @@ class Product:
         return cls(data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6]) if data else None
     
     @classmethod
+    def select_product_by_price(cls, price, db = None):
+        """
+        search for products by price
+        :param
+            price: str
+            db: Database    
+        :returns: list
+        """
+        if not Type.is_float(price):
+            raise ValueError("Price must be number or decimal")
+        
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE p.price = ?
+           """, (price,))
+        
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_quantity(cls, quantity, db = None):
+        """
+        search for products by quantity
+        :param
+            quantity: str
+            db: Database    
+        :returns: list
+        """
+        if not Type.is_int(quantity):
+            raise ValueError("Quantity must be number")
+        
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE p.quantity = ?
+           """, (quantity,))
+        
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_category(cls, category, db = None):
+        """
+        search for products by category
+        :param
+            category: str
+            db: Database    
+        :returns: list
+        """
+        
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE LOWER(c.name) LIKE ?
+           """, (f"{category.lower()}%",))
+        
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_company(cls, company, db = None):
+        """
+        search for products by company
+        :param
+            company: str
+            db: Database    
+        :returns: list
+        """
+        
+        db = db or Database()
+        data = db.fetch_data(
+            """
+            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
+           p.price, p.quantity, p.code
+           FROM products p
+           JOIN categories c ON p.category_id = c.id
+           JOIN manufacturer m ON p.manufacturer_id = m.id
+           WHERE LOWER(m.name) LIKE ?
+           """, (f"{company.lower()}%",))
+        
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_creation_date(cls, date, db=None):
+        """
+        Select for products by creation date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, category_name, manufacturer_name, price, quantity, code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products WHERE date(creation_date) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_last_update(cls, date, db=None):
+        """
+        Select for products by last update date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, category_name, manufacturer_name, price, quantity, code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products WHERE date(last_update) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
     def select_all(cls, db=None):
         """
         Select all products along with their category and manufacturer names
@@ -91,9 +220,9 @@ class Product:
         return products
     
     @classmethod
-    def search_product_by_partial_name(cls, name, db=None):
+    def select_product_by_partial_name(cls, name, db=None):
         """
-        Search for products by partial name
+        Select for products by partial name
         :param
             name: str
             db: Database    
@@ -111,59 +240,6 @@ class Product:
             """, (f"{name.lower()}%",))
         
         return data if data else ()
-    
-    @classmethod
-    def search_product_by_price(cls, price, db = None):
-        """
-        Search for products by price
-        :param
-            price: str
-            db: Database    
-        :returns: list
-        """
-        if not Type.is_float(price):
-            raise ValueError("Price must be number or decimal")
-        
-        db = db or Database()
-        data = db.fetch_data(
-            """
-            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
-           p.price, p.quantity, p.code
-           FROM products p
-           JOIN categories c ON p.category_id = c.id
-           JOIN manufacturer m ON p.manufacturer_id = m.id
-           WHERE p.price = ?
-           """, (price,))
-        
-        return data if data else ()
-    
-    @classmethod
-    def search_product_by_quantity(cls, quantity, db = None):
-        """
-        Search for products by quantity
-        :param
-            quantity: str
-            db: Database    
-        :returns: list
-        """
-        if not Type.is_int(quantity):
-            raise ValueError("Quantity must be number")
-        
-        db = db or Database()
-        data = db.fetch_data(
-            """
-            SELECT p.id, p.name, p.description, c.name AS category_name, m.name AS manufacturer_name, 
-           p.price, p.quantity, p.code
-           FROM products p
-           JOIN categories c ON p.category_id = c.id
-           JOIN manufacturer m ON p.manufacturer_id = m.id
-           WHERE p.quantity = ?
-           """, (quantity,))
-        
-        return data if data else ()
-        
-
-    # Getters and setters for the attributes
 
     @property
     def name(self):

@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from database.database import Database
+from utils.type import Type
 
 class Category:
     def __init__(self, name, description=None, db=None):
@@ -94,6 +95,41 @@ class Category:
 
         db = db or Database()
         data = db.fetch_data("SELECT * FROM categories WHERE name LIKE ?", (f"{name.lower()}%",))
+        return data if data else ()
+    
+    @classmethod
+    def select_by_creation_date(cls, date, db=None):
+        """
+        Select a category by its creation date
+        
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM categories WHERE date(creation_date) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
+    def select_by_last_update(cls, date, db=None):
+        """
+        Select a category by its last update date
+        
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM categories WHERE date(last_update) = date(?)", (date,))
         return data if data else ()
     
     # Decorators methods

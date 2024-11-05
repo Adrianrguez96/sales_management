@@ -69,20 +69,18 @@ class InventoryController:
 
         match search_option:
             case "Name":
-                return Product.search_product_by_partial_name(search_input)
-            # TODO: Implement Category and company search
+                return Product.select_product_by_partial_name(search_input)
             case "Category":
-                return Product.search_product_by_category(search_input)
+                return Product.select_product_by_category(search_input)
             case "Company":
-                return Product.search_product_by_company(search_input)
+                return Product.select_product_by_company(search_input)
             case "Price":
-                return Product.search_product_by_price(search_input)
+                return Product.select_product_by_price(search_input)
             case "Quantity":
-                return Product.search_product_by_quantity(search_input)
-            #TODO: Implement Creation Date and Last Update
+                return Product.select_product_by_quantity(search_input)
             case "Creation Date":
-                return Product.search_product_by_creation_date(search_input)
+                return Product.select_product_by_creation_date(search_input)
             case "Last Update":
-                return Product.search_product_by_last_update(search_input)
+                return Product.select_product_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
