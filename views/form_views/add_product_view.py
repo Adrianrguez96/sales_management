@@ -42,7 +42,14 @@ class AddProductWindow(QDialog):
         
         try:
             product = InventoryController.add_product(name, category_id, manufacturer_id, price, quantity)
-            self.results = (product.name, product.category_name, product.manufacturer_name, product.price, product.quantity)
+            self.results = (product.id,product.name, product.category_name, product.manufacturer_name, product.price, product.quantity)
+
+            self.nameInput.clear()
+            self.categorySelect.setCurrentIndex(0)
+            self.companySelect.setCurrentIndex(0)
+            self.priceInput.clear()
+            self.quantityInput.clear()
+
             self.accept()
         except ValueError as e:
             MessageService.show_warning("Error Adding Product", str(e))

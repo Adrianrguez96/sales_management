@@ -32,7 +32,7 @@ class InventoryController:
             quantity = int(quantity) if quantity else None
 
             product = Product(name, category_id, manufacturer_id, price, quantity)
-            product.save()
+            product.id = product.save()
 
             product.category_name = Category.select_by_id(category_id).name
             product.manufacturer_name = Company.select_by_id(manufacturer_id).name
@@ -84,3 +84,14 @@ class InventoryController:
                 return Product.select_product_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
+    
+    @staticmethod
+    def delete_product(product_id):
+        """
+        Delete a product from the database
+        :param product_id: int
+        """
+        try:
+            Product.delete(product_id)
+        except Exception as e:
+            raise e
