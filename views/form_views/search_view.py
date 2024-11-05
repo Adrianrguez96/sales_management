@@ -1,6 +1,6 @@
 # /views/form_views/search_view.py
 
-from PyQt5.QtWidgets import QWidget, QDialog
+from PyQt5.QtWidgets import QDialog, QDateEdit
 from PyQt5 import uic
 from utils.message_service import MessageService
 import logging
@@ -33,6 +33,13 @@ class SearchWindow(QDialog):
         self._change_title_text(f"Search {self.search_type.capitalize()}")
         self._select_search_options(self.options)
 
+        # Invisible date field 
+        self.searchDateLabel.setVisible(False) 
+        self.searchDateInput.setVisible(False)
+
+        # Connects the selection of search options	
+        self.searchSelect.currentIndexChanged.connect(self._on_selection_search_changed)
+
         # Connects buttons
         self.btnSearch.clicked.connect(self.search)
         self.btnCancel.clicked.connect(self.reject)
@@ -63,6 +70,20 @@ class SearchWindow(QDialog):
             general_options.insert(0, "Name")
         
         self.searchSelect.addItems(general_options)
+    
+    def _on_selection_search_changed(self):
+        """
+        Called when the search selection changes
+        """
+        select = self.searchSelect.currentText()
+        is_date_selection = select in ["Creation Date", "Last Update"]
+
+        self.searchDateLabel.setVisible(is_date_selection)
+        self.searchDateInput.setVisible(is_date_selection)
+
+        self.searchLabel.setVisible(not is_date_selection)
+        self.searchInput.setVisible(not is_date_selection)
+
 
     def search(self):
         """
@@ -71,8 +92,8 @@ class SearchWindow(QDialog):
 
         # Get the search options
         search_options = self.searchSelect.currentText()
-        search_input = self.searchInput.text()
-
+        search_input = self.searchInput.text() if not self.searchDateInput.isVisible() else self.searchDateInput.date().toString("yyyy-MM-dd")
+        print(search_input)
         try:
             match self.search_type:
                 case "inventory":

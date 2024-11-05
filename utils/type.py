@@ -1,5 +1,7 @@
 # /utils/type.py
 
+from datetime import datetime
+
 class Type:
 
     @staticmethod
@@ -26,6 +28,20 @@ class Type:
         """
         try:
             int(value)
+            return True
+        except ValueError:
+            return False
+    
+    @staticmethod
+    def is_date(value):
+        """
+        Check if the value is a date.
+
+        :param value: any
+        :returns: bool
+        """
+        try:
+            datetime.strptime(value, "%Y-%m-%d")
             return True
         except ValueError:
             return False
