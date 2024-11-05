@@ -19,6 +19,10 @@ class ClientView(QWidget):
         super().__init__()
         uic.loadUi('design/client_window.ui', self)
 
+        # Set context menu signals
+        self.clientTable.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.clientTable.customContextMenuRequested.connect(self._context_menu_client_table)
+
         # Set button signals
         self.addClient.clicked.connect(self.open_add_client_window)
         self.searchClient.clicked.connect(self.open_search_client_window)
@@ -29,6 +33,8 @@ class ClientView(QWidget):
         """
         try:
             clients = ClientController.get_clients()
+
+            Table.clear(self.clientTable)
             for client in clients:
                 Table.add_row(self.clientTable, (client.name, client.email, client.phone, client.address), extra_data=client.id)
         
