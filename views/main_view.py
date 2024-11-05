@@ -109,3 +109,5 @@ class MainView(QMainWindow):
                 view.load_categories()
             case "company": 
                 view.load_companies()
+            case "client":
+                view.load_clients()

@@ -203,8 +203,8 @@ class Client:
     def email(self, value):
         if not value:
             raise ValueError("Email cannot be empty")
-        elif not isinstance(value, str):
-            raise TypeError("Email must be a string")
+        elif not Type.is_email(value):
+            raise ValueError("Email must be a valid email address")
         
         self._email = value
 
@@ -217,8 +217,8 @@ class Client:
     def phone(self, value):
         if not value:
             raise ValueError("Phone cannot be empty")
-        elif not isinstance(value, str):
-            raise TypeError("Phone must be a string")
+        elif not Type.is_phone_number(value):
+            raise ValueError("Phone must be a valid phone number")
         
         self._phone = value
 
