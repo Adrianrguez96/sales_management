@@ -27,11 +27,14 @@ class Company:
     def save(self):
         """
         Saves the manufacturer to the database
+
+        :returns: current manufacturer id
         """
-        self._db.execute_query(
+        last_id = self._db.execute_query(
             "INSERT INTO manufacturer (name, description, factory_code) VALUES (?, ?, ?)",
             (self._name, self._description, self._factory_code)
         )
+        return last_id
 
     # Class methods
 
@@ -148,6 +151,19 @@ class Company:
         db = db or Database()
         data = db.fetch_data("SELECT * FROM manufacturer WHERE factory_code LIKE ?", (f"{factory_code}%",))
         return data if data else ()
+    
+    @classmethod
+    def delete(cls, company_id, db=None):
+        """
+        Delete a company from the database
+        :param
+            company_id: int
+            db: Database
+        """
+        db = db or Database()
+        delete_id = db.execute_query("DELETE FROM manufacturer WHERE id = ?", (company_id,))
+        return delete_id
+
     
     # Decorators methods
 

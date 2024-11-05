@@ -14,7 +14,7 @@ class CompanyController:
         :param description: str
         :param factory_code: int
         
-        :returns: Company
+        :returns: Company id
         """
         
         if Company.select_by_name(name):
@@ -24,9 +24,9 @@ class CompanyController:
         
         try:
             company = Company(name, description, factory_code)
-            company.save()
+            company_id = company.save()
             logging.info(f"Company {name} added successfully")
-            return company
+            return company_id
         except Exception as e:
             logging.error(f"Error adding company: {e}")
             raise e
@@ -36,7 +36,7 @@ class CompanyController:
         """
         Get all company from the database
 
-        :returns: list
+        :returns: Information list of companies
         """
         return Company.select_all()
     
@@ -49,7 +49,7 @@ class CompanyController:
             search_options: list
             search_input: str
 
-        :returns: list
+        :returns: select company data or empty list
         """
 
         if not search_input:
@@ -66,3 +66,14 @@ class CompanyController:
                 return Company.select_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
+    
+    @staticmethod
+    def delete_company(company_id):
+        """
+        Delete a company from the database
+        :param company_id: int
+        """
+        try:
+            Company.delete(company_id)
+        except Exception as e:    
+            raise e

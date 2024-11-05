@@ -26,12 +26,14 @@ class Category:
     def save(self):
         """
         Saves the category to the database
+
+        :returns: current category id
         """
-        last_id = self._db.execute_query(
+        current_id = self._db.execute_query(
             "INSERT INTO categories (name, description) VALUES (?, ?)",
             (self._name, self._description)
         )
-        return last_id
+        return current_id
     
     # Class methods
 

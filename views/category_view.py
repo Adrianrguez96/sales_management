@@ -36,6 +36,7 @@ class CategoryView(QWidget):
         """
         try:
             categories = CategoryController.get_categories()
+            Table.clear(self.categoryTable)
             for category in categories:
                 Table.add_row(self.categoryTable, (category.name, category.description), extra_data=category.id)
                 

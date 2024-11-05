@@ -26,6 +26,7 @@ class InventoryView(QWidget):
         """
         try:
             products = InventoryController.get_products()
+            Table.clear(self.inventoryTable)
             for product in products:
                 Table.add_row(self.inventoryTable, (product['name'], product['category_name'], product['manufacturer_name'], product['price'], product['quantity']))
                 
