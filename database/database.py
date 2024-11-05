@@ -46,6 +46,23 @@ class Database:
             MessageService.show_critical_warning("Internal Error", "Error creating tables")
             logging.critical(f"Error to create tables: {e}")
 
+    def create_triggers(self):
+        """
+        Creates the triggers in the database
+        """
+        try:
+            with self.connection() as con:
+                cursor = con.cursor()
+                cursor.executescript(open("database/triggers.sql").read())
+                con.commit()
+                logging.info("Triggers have been created successfully")
+        except FileNotFoundError:
+            MessageService.show_critical_warning("Error", "Triggers.sql file not found")
+            logging.error("Triggers.sql file not found")
+        except Error as e:
+            MessageService.show_critical_warning("Internal Error", "Error creating triggers")
+            logging.critical(f"Error to create triggers: {e}")
+
     def execute_query(self, query, params=()):
         """
         Executes a single query against the database

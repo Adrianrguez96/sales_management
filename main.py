@@ -9,7 +9,8 @@ if __name__ == "__main__":
     setup_logging("sales_management.log")
     
     db = Database()
-    db.create_tables()
+    db.create_tables() # Create tables if they don't exist
+    db.create_triggers() # Create triggers if they don't exist
 
     app = QApplication([])
 
