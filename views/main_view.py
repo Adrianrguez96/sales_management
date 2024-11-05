@@ -36,9 +36,6 @@ class MainView(QMainWindow):
             "sale": SaleView()
         }
         
-        # Dictionary to track data loading status
-        self.data_loaded = {view_name: False for view_name in self.views}
-
         # Add all views to the stacked widget and set the initial view
         self.add_views()
         self.set_view("home")  # Set to "home" initially
@@ -86,16 +83,14 @@ class MainView(QMainWindow):
         Set the current view based on the view name.
         :param view_name: str
         """
+        print(view_name)
         if view_name == "home":
             self.content.setCurrentIndex(0)  # Assuming index 0 is the home view
             self.setWindowTitle(f"{PROGRAM_TITLE} - {view_name.capitalize()}")
         elif view_name in self.views:
             view = self.views[view_name]
 
-            if not self.data_loaded[view_name]:
-                self.initialize_view_data(view, view_name)
-                self.data_loaded[view_name] = True
-            
+            self.initialize_view_data(view, view_name)
             self.content.setCurrentWidget(view)
             self.setWindowTitle(f"{PROGRAM_TITLE} - {view_name.capitalize()}")
         else:
