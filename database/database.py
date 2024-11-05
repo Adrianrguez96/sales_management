@@ -4,7 +4,7 @@ import sqlite3 as sql
 from sqlite3 import Error
 
 import logging
-import utils.message_service as MessageService
+from utils.message_service import MessageService
 
 class Database:
     def __init__(self, db_path="database/shop_db.db"):

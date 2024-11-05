@@ -10,6 +10,7 @@ import logging
 # Import the controller and views
 from controllers.inventory_controller import InventoryController
 from views.form_views.add_product_view import AddProductWindow
+from views.form_views.edit_product_view import EditProductWindow
 from views.form_views.search_view import SearchWindow
 from views.context_menu_view import ContextMenuView
 
@@ -97,7 +98,22 @@ class InventoryView(QWidget):
         """
         item = self.inventoryTable.item(row_position, 0)
         product_id = item.data(Qt.UserRole)  # Get the stored ID
-        print (product_id)
+
+        try:    
+            self.edit_product_window = EditProductWindow(product_id)
+
+            if self.edit_product_window.exec_() == QDialog.Accepted:
+                product_data = self.edit_product_window.product
+
+                Table.update_row(self.inventoryTable, row_position, (product_data.name,product_data.category_name, 
+                      product_data.company_name, product_data.price, 
+                      product_data.quantity), extra_data=product_data.id)
+                
+                logging.info(f"Product {product_data.name} edited successfully")  
+
+        except Exception as e:
+            MessageService.show_critical_warning("Error", f"There was an error editing the product: {e}")
+            logging.error(f"Error editing product: {e}")
         
     def delete_product(self,row_position):
         """
