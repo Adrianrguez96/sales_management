@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from database.database import Database
+from utils.type import Type
 
 class Company:
     def __init__(self, name, description=None, factory_code=None, db=None):
@@ -86,6 +87,39 @@ class Company:
         db = db or Database()
         data = db.fetch_data("SELECT * FROM manufacturer WHERE factory_code = ?", (factory_code,))
         return cls(data[0][1], data[0][2], data[0][3]) if data else None
+    
+    @classmethod
+    def select_by_creation_date(cls, date, db=None):
+        """
+        Select a manufacturer by its creation date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, factory_code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM manufacturer WHERE date(creation_date) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
+    def select_by_last_update(cls, date, db=None):
+        """
+        Select a manufacturer by its last update date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, factory_code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM manufacturer WHERE date(last_update) = date(?)", (date,))
+        return data if data else ()
     
     @classmethod
     def select_by_partial_name(cls, name, db=None):

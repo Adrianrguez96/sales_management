@@ -153,6 +153,39 @@ class Product:
         return data if data else ()
     
     @classmethod
+    def select_product_by_creation_date(cls, date, db=None):
+        """
+        Select for products by creation date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, category_name, manufacturer_name, price, quantity, code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products WHERE date(creation_date) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
+    def select_product_by_last_update(cls, date, db=None):
+        """
+        Select for products by last update date
+        :param 
+            date: str
+            db: Database
+
+        :returns: id, name, description, category_name, manufacturer_name, price, quantity, code
+        """
+        if not Type.is_date(date):
+            raise ValueError("Date must be in the format YYYY-MM-DD")
+        
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM products WHERE date(last_update) = date(?)", (date,))
+        return data if data else ()
+    
+    @classmethod
     def select_all(cls, db=None):
         """
         Select all products along with their category and manufacturer names
@@ -187,9 +220,9 @@ class Product:
         return products
     
     @classmethod
-    def search_product_by_partial_name(cls, name, db=None):
+    def select_product_by_partial_name(cls, name, db=None):
         """
-        Search for products by partial name
+        Select for products by partial name
         :param
             name: str
             db: Database    

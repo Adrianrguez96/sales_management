@@ -93,7 +93,7 @@ class SearchWindow(QDialog):
         # Get the search options
         search_options = self.searchSelect.currentText()
         search_input = self.searchInput.text() if not self.searchDateInput.isVisible() else self.searchDateInput.date().toString("yyyy-MM-dd")
-        print(search_input)
+
         try:
             match self.search_type:
                 case "inventory":

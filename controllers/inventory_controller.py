@@ -69,7 +69,7 @@ class InventoryController:
 
         match search_option:
             case "Name":
-                return Product.search_product_by_partial_name(search_input)
+                return Product.select_product_by_partial_name(search_input)
             case "Category":
                 return Product.select_product_by_category(search_input)
             case "Company":
@@ -78,7 +78,6 @@ class InventoryController:
                 return Product.select_product_by_price(search_input)
             case "Quantity":
                 return Product.select_product_by_quantity(search_input)
-            #TODO: Implement Creation Date and Last Update
             case "Creation Date":
                 return Product.select_product_by_creation_date(search_input)
             case "Last Update":
