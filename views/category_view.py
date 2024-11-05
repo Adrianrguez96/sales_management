@@ -11,6 +11,7 @@ import logging
 # Import the controller and views
 from controllers.category_controller import CategoryController
 from views.form_views.add_category_view import AddCategoryWindow
+from views.form_views.edit_category_view import EditCategoryWindow
 from views.form_views.search_view import SearchWindow
 from views.context_menu_view import ContextMenuView
 
@@ -105,7 +106,18 @@ class CategoryView(QWidget):
         """
         item = self.categoryTable.item(row_position, 0)
         category_id = item.data(Qt.UserRole)  # Get the stored ID
-        print (category_id)
+
+        try:
+            self.edit_category_window = EditCategoryWindow(category_id)
+
+            if self.edit_category_window.exec_() == QDialog.Accepted:
+                category_data = self.edit_category_window.category
+                Table.update_row(self.categoryTable, row_position, (category_data.name, category_data.description), extra_data=category_data.id)
+                logging.info(f"Category {category_data.name} edited successfully")
+        
+        except Exception as e:
+            MessageService.show_critical_warning("Error", f"There was an error editing the category: {e}")
+            logging.error(f"Error editing category: {e}")
 
     def delete_category(self,row_position):
         """

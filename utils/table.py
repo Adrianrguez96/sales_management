@@ -26,6 +26,24 @@ class Table:
             table.item(row_position, 0).setData(Qt.UserRole, extra_data)
 
     @staticmethod
+    def update_row(table: QTableWidget, row_position, data: tuple, extra_data = None):
+        """
+        Updates the data of the specified row in the specified QTableWidget.
+        
+        :param 
+            table: QTableWidget instance
+            row_position: int
+            data: tuple
+            extra_data: optional data (e.g., ID or QDate) to associate with the row, hidden from view
+        """
+
+        for i, value in enumerate(data):  # Iterate over the data and set the values
+            table.setItem(row_position, i, QTableWidgetItem(str(value)))  # Set the value
+
+        if extra_data is not None:
+            table.item(row_position, 0).setData(Qt.UserRole, extra_data)
+    
+    @staticmethod
     def clear(table: QTableWidget):
         """
         Clears all data from the specified QTableWidget.
