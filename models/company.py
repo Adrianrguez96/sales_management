@@ -153,6 +153,26 @@ class Company:
         return data if data else ()
     
     @classmethod
+    def update(cls, company_data, db=None):
+        """
+        Update a company in the database
+
+        :param 
+            company_data: Instance of Company containing the data to update
+            db: Database connection (optional)
+        """
+        db = db or Database()
+        query = """
+        UPDATE manufacturer SET
+        name = CASE WHEN COALESCE(name, '') <> COALESCE(?, '') THEN ? ELSE name END,
+        description = CASE WHEN COALESCE(description, '') <> COALESCE(?, '') THEN ? ELSE description END,
+        factory_code = CASE WHEN COALESCE(factory_code, '') <> COALESCE(?, '') THEN ? ELSE factory_code END
+        WHERE id = ?
+        """
+        db.execute_query(query, (company_data.name, company_data.name, company_data.description, company_data.description, 
+                                 company_data.factory_code, company_data.factory_code, company_data.id))
+    
+    @classmethod
     def delete(cls, company_id, db=None):
         """
         Delete a company from the database

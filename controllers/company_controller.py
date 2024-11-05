@@ -41,6 +41,32 @@ class CompanyController:
         return Company.select_all()
     
     @staticmethod
+    def get_company(select_type, value):
+        """
+        Get a company from the database
+
+        :param
+            select_type: str
+            value: int
+
+        :returns: Company
+        """
+
+        match select_type:
+            case "id":
+                return Company.select_by_id(value)
+            case "name":
+                return Company.select_by_name(value)
+            case "factory_code":
+                return Company.select_by_factory_code(value)
+            case "creation_date":
+                return Company.select_by_creation_date(value)
+            case "last_update":
+                return Company.select_by_last_update(value)
+            case _:    
+                raise ValueError("Select type not found")
+    
+    @staticmethod
     def search_company(search_option, search_input):
         """
         Search for companies in the database
@@ -66,6 +92,22 @@ class CompanyController:
                 return Company.select_by_last_update(search_input)
             case _:
                 raise ValueError("Search option not found")
+        
+    @staticmethod
+    def edit_company(company_data):
+        """
+        Edit a company in the database
+
+        :param name: str
+        :param description: str
+        :param factory_code: int
+
+        :returns: Company id
+        """
+        try:
+            Company.update(company_data)
+        except Exception as e:    
+            raise e
     
     @staticmethod
     def delete_company(company_id):

@@ -10,6 +10,7 @@ import logging
 # Import the controller and views
 from controllers.company_controller import CompanyController
 from views.form_views.add_company_view import AddCompanyWindow
+from views.form_views.edit_company_view import EditCompanyWindow
 from views.form_views.search_view import SearchWindow
 from views.context_menu_view import ContextMenuView
 
@@ -93,7 +94,18 @@ class CompanyView(QWidget):
         """
         item = self.companyTable.item(row_position, 0)
         company_id = item.data(Qt.UserRole)  # Get the stored ID
-        print (company_id)
+
+        try:    
+            self.edit_company_window = EditCompanyWindow(company_id)
+
+            if self.edit_company_window.exec_() == QDialog.Accepted:
+                company_data = self.edit_company_window.company
+                Table.update_row(self.companyTable, row_position, (company_data.name, company_data.description, company_data.factory_code), extra_data=company_data.id)
+                logging.info(f"Company {company_data.name} edited successfully")
+        
+        except Exception as e:
+            MessageService.show_critical_warning("Error", f"There was an error editing the company: {e}")
+            logging.error(f"Error editing company: {e}")
         
     def delete_company(self,row_position):
         """
