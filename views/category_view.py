@@ -116,5 +116,13 @@ class CategoryView(QWidget):
         category_id = item.data(Qt.UserRole)  # Get the stored ID
         category_name = self.categoryTable.item(row_position, 0).text()
 
-        MessageService.show_questions("Delete Category", f"Are you sure you want to delete the category {category_name}?")
-        print (category_id)
+        is_deleted = MessageService.show_questions("Delete Category", f"Are you sure you want to delete the category '{category_name}'?")
+
+        if is_deleted:
+            try:
+                CategoryController.delete_category(category_id)
+                Table.delete_selected_row(self.categoryTable)
+                logging.info(f"Category {category_name} deleted successfully")
+            except Exception as e:
+                MessageService.show_critical_warning("Error", f"There was an error deleting the category: {e}")
+                logging.error(f"Error deleting category: {e}")

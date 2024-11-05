@@ -133,6 +133,19 @@ class Category:
         data = db.fetch_data("SELECT * FROM categories WHERE date(last_update) = date(?)", (date,))
         return data if data else ()
     
+    @classmethod
+    def delete(cls, category_id, db=None):
+        """
+        Delete a category from the database
+
+        :param 
+            category_id: int
+            db: Database
+        """
+        db = db or Database()
+        delete_id = db.execute_query("DELETE FROM categories WHERE id = ?", (category_id,))
+        return delete_id
+    
     # Decorators methods
 
     @staticmethod
