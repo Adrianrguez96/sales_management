@@ -83,7 +83,6 @@ class MainView(QMainWindow):
         Set the current view based on the view name.
         :param view_name: str
         """
-        print(view_name)
         if view_name == "home":
             self.content.setCurrentIndex(0)  # Assuming index 0 is the home view
             self.setWindowTitle(f"{PROGRAM_TITLE} - {view_name.capitalize()}")

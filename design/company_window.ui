@@ -96,6 +96,15 @@ QPushButton:pressed {
 }
 </string>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
     <number>183</number>
    </attribute>
