@@ -8,11 +8,19 @@ import utils.message_service as MessageService
 
 class Database:
     def __init__(self, db_path="database/shop_db.db"):
+        """
+        Initializes the Database class
+
+        :param
+            db_path: str (default: "database/shop_db.db")
+        """
         self._db_path = db_path
 
     def connection(self):
         """
         Returns a connection to the database
+
+        :return connection: sqlite3.Connection
         """
         try:
             return sql.connect(self._db_path)
@@ -41,6 +49,12 @@ class Database:
     def execute_query(self, query, params=()):
         """
         Executes a single query against the database
+
+        :param
+            query: str
+            params: tuple
+
+        :returns: last inserted row id or None
         """
         try:
             with self.connection() as con:
@@ -56,6 +70,12 @@ class Database:
     def fetch_data(self, query, params=()):
         """
         Fetches data from the database based on a query
+
+        :param
+            query: str
+            params: tuple
+        
+        :returns: cursor data or empty list
         """
         try:
             with self.connection() as con:

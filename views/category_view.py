@@ -37,7 +37,7 @@ class CategoryView(QWidget):
         try:
             categories = CategoryController.get_categories()
             for category in categories:
-                Table.add_row(self.categoryTable, (category.name, category.description))
+                Table.add_row(self.categoryTable, (category.name, category.description), extra_data=category.id)
                 
         except Exception as e:
             MessageService.show_critical_warning("Error", "There was an error loading the categories") 
@@ -73,7 +73,7 @@ class CategoryView(QWidget):
 
         if self.add_category_window.exec_() == QDialog.Accepted:
             results = self.add_category_window.results
-            Table.add_row(self.categoryTable, (results[0], results[1]))
+            Table.add_row(self.categoryTable, (results[1], results[2]), extra_data = results[0])
 
     def open_search_category_window(self):
         """
@@ -91,7 +91,7 @@ class CategoryView(QWidget):
             
             Table.clear(self.categoryTable)
             for category in result:
-                Table.add_row(self.categoryTable, (category[1], category[2]))
+                Table.add_row(self.categoryTable, (category[1], category[2]), extra_data=category[0])
             
             logging.info("Search results found")
 
@@ -102,7 +102,9 @@ class CategoryView(QWidget):
         
         :param row_position: int
         """
-        print ("Edit category")
+        item = self.categoryTable.item(row_position, 0)
+        category_id = item.data(Qt.UserRole)  # Get the stored ID
+        print (category_id)
 
     def delete_category(self,row_position):
         """
@@ -110,4 +112,9 @@ class CategoryView(QWidget):
         
         :param row_position: int
         """
-        print ("Delete category")
+        item = self.categoryTable.item(row_position, 0)
+        category_id = item.data(Qt.UserRole)  # Get the stored ID
+        category_name = self.categoryTable.item(row_position, 0).text()
+
+        MessageService.show_questions("Delete Category", f"Are you sure you want to delete the category {category_name}?")
+        print (category_id)

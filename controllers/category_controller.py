@@ -20,9 +20,9 @@ class CategoryController:
             raise ValueError("Category already exists")
         try:
             category = Category(name, description)
-            category.save()
+            category_id = category.save()
             logging.info(f"Category {name} added successfully")
-            return category
+            return category_id
         except Exception as e:
             logging.error(f"Error adding category: {e}")
             raise e

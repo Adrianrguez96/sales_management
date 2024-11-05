@@ -27,10 +27,11 @@ class Category:
         """
         Saves the category to the database
         """
-        self._db.execute_query(
+        last_id = self._db.execute_query(
             "INSERT INTO categories (name, description) VALUES (?, ?)",
             (self._name, self._description)
         )
+        return last_id
     
     # Class methods
 
