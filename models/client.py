@@ -1,6 +1,7 @@
 # /models/client.py
 
 from datetime import datetime
+from typing import Any
 from database.database import Database
 from utils.type import Type
 
@@ -82,6 +83,37 @@ class Client:
         db = db or Database()
         data = db.fetch_data("SELECT * FROM clients WHERE name = ?", (name.lower(),))
         return cls(data[0][1], data[0][2], data[0][3], data[0][4]) if data else None
+    
+    @classmethod
+    def select_by_email(cls, email, db=None):
+        """
+        Select a client by its email
+
+        :param
+            email: str
+            db: Database
+
+        :returns: id, name, email, phone, address
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM clients WHERE email = ?", (email.lower(),))
+        return cls(data[0][1], data[0][2], data[0][3], data[0][4]) if data else None
+    
+    @classmethod
+    def select_by_phone(cls, phone, db=None):
+        """
+        Select a client by its phone
+
+        :param
+            phone: str
+            db: Database
+
+        :returns: id, name, email, phone, address
+        """
+        db = db or Database()
+        data = db.fetch_data("SELECT * FROM clients WHERE phone = ?", (phone.lower(),))
+        return cls(data[0][1], data[0][2], data[0][3], data[0][4]) if data else None
+            
     
     @classmethod
     def select_by_partial_name(cls, name, db=None):

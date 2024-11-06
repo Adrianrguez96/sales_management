@@ -9,13 +9,21 @@ class ClientController:
         """
         Add a new client to the database
 
-        :param name: str
-        :param email: str
-        :param phone: str
-        :param address: str
+        :param
+            name: str
+            email: str
+            phone: str
+            address: str
         
         :returns: Client
         """
+
+        # Check if email client already exists
+        if Client.select_by_email(email):
+            raise ValueError("Email client already exists")
+        elif Client.select_by_phone(phone):
+            raise ValueError("Phone client already exists")
+
         try:
             client = Client(name, email, phone, address)
             client_id = client.save()
@@ -92,10 +100,8 @@ class ClientController:
         """
         Edit a client in the database
 
-        :param name: str
-        :param email: str
-        :param phone: str
-        :param address: str
+        :param 
+            client_data: dict
 
         :returns: Client id
         """
