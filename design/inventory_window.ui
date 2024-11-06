@@ -21,12 +21,12 @@
     <rect>
      <x>20</x>
      <y>110</y>
-     <width>551</width>
+     <width>541</width>
      <height>451</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -99,6 +99,12 @@ QPushButton:pressed {
 }
 </string>
    </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustIgnored</enum>
+   </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
@@ -108,8 +114,17 @@ QPushButton:pressed {
    <property name="selectionBehavior">
     <enum>QAbstractItemView::SelectRows</enum>
    </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>109</number>
+    <number>108</number>
+   </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>108</number>
+   </attribute>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>false</bool>
    </attribute>
    <attribute name="verticalHeaderDefaultSectionSize">
     <number>30</number>
@@ -197,7 +212,6 @@ p, li { white-space: pre-wrap; }
 
 QPushButton:focus {
     background-color: rgb(72, 102, 230);
-    filter: brightness(0.8); 
 }
 
 QPushButton:pressed {

@@ -18,12 +18,12 @@
     <rect>
      <x>10</x>
      <y>110</y>
-     <width>551</width>
+     <width>541</width>
      <height>451</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -95,6 +95,12 @@ QPushButton:pressed {
     background-color: #3A7D58;
 }
 </string>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAsNeeded</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
@@ -181,7 +187,6 @@ p, li { white-space: pre-wrap; }
 
 QPushButton:focus {
     background-color: rgb(72, 102, 230);
-    filter: brightness(0.8); 
 }
 
 QPushButton:pressed {
