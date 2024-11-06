@@ -7,7 +7,7 @@ from utils.barCode import BarCode
 from utils.type import Type
 
 class Product:
-    def __init__(self, name, category_id, manufacturer_id, price, quantity, description= ""):
+    def __init__(self, name, category_id, manufacturer_id, price, quantity, code = 0, description= ""):
         """
         Initializes a new product object
 
@@ -25,7 +25,7 @@ class Product:
         self.manufacturer_id = manufacturer_id
         self.price = price
         self.quantity = quantity
-        self.code = BarCode.generate_barcode("038", "001") # TODO: Add the factory code
+        self.code = BarCode.generate_barcode("038", code)
         self._creation_date = datetime.now()
         self._last_update = datetime.now()
 
@@ -383,8 +383,6 @@ class Product:
     def code(self, value):
         if not isinstance(value, str):
             raise TypeError("Code must be a string")
-        if len(value) != 12:
-            raise ValueError("Code must be 12 characters long")
         self._code = value
         self._last_update = datetime.now()
 

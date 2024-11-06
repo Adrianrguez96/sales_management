@@ -31,7 +31,9 @@ class InventoryController:
             price = float(price) if price else None
             quantity = int(quantity) if quantity else None
 
-            product = Product(name, category_id, manufacturer_id, price, quantity)
+            company = Company.select_by_id(manufacturer_id)
+
+            product = Product(name, category_id, manufacturer_id, price, quantity, company.factory_code)
             product.id = product.save()
 
             product.category_name = Category.select_by_id(category_id).name

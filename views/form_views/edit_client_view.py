@@ -21,6 +21,11 @@ class EditClientWindow(QDialog):
         # Basic window Settings
         self.setWindowTitle("Sales Management - Edit Client")
 
+                #Edit main title
+        html_content = self.formTitle.toHtml()
+        updated_html = html_content.replace("Add Client", "Edit Client")
+        self.formTitle.setHtml(updated_html)
+
         self._load_edit_client()
 
         # Connect buttons

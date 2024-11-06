@@ -210,12 +210,12 @@ QPushButton:pressed {
    </attribute>
    <column>
     <property name="text">
-     <string>Client</string>
+     <string>Request Date</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Products</string>
+     <string>Client</string>
     </property>
    </column>
    <column>

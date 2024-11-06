@@ -21,6 +21,11 @@ class EditCompanyWindow(QDialog):
         # Basic window Settings
         self.setWindowTitle("Sales Management - Edit Company")
 
+        #Edit main title
+        html_content = self.formTitle.toHtml()
+        updated_html = html_content.replace("Add Company", "Edit Company")
+        self.formTitle.setHtml(updated_html)
+
         self._load_edit_company()
 
         # Connect buttons

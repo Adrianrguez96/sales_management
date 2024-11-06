@@ -21,6 +21,11 @@ class EditCategoryWindow(QDialog):
         # Basic window Settings
         self.setWindowTitle("Sales Management - Edit Category")
 
+        #Edit main title
+        html_content = self.formTitle.toHtml()
+        updated_html = html_content.replace("Add Category", "Edit Category")
+        self.formTitle.setHtml(updated_html)
+
         self._load_edit_category()
 
         # Connect buttons
@@ -65,3 +70,5 @@ class EditCategoryWindow(QDialog):
         except Exception as e:
             MessageService.show_critical_warning("Critical Error", str(e))
             logging.error(f"Critical error editing category: {e}")
+
+

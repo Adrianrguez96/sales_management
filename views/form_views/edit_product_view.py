@@ -23,6 +23,11 @@ class EditProductWindow(QDialog):
         # Basic window Settings
         self.setWindowTitle("Sales Management - Edit Product")
 
+        #Edit main title
+        html_content = self.formTitle.toHtml()
+        updated_html = html_content.replace("Add Product", "Edit Product")
+        self.formTitle.setHtml(updated_html)
+
 
         self._load_categories_select()
         self._load_companies_select()
