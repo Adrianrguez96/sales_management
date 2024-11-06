@@ -1,6 +1,7 @@
 # /utils/type.py
 
 from datetime import datetime
+import re
 
 class Type:
 
@@ -45,3 +46,31 @@ class Type:
             return True
         except ValueError:
             return False
+    
+    @staticmethod
+    def is_email(value):
+        """
+        Check if the value is an email.
+
+        :param value: any
+        :returns: bool
+        """
+        if not isinstance(value, str):
+            raise ValueError("Value must be a string")
+        
+        pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+        return re.match(pattern, value)
+    
+    @staticmethod
+    def is_phone_number(value):
+        """
+        Check if the value is a phone number.
+
+        :param value: any
+        :returns: bool
+        """
+        if not isinstance(value, str):
+            raise ValueError("Value must be a string")
+        
+        pattern = r"^\+?[1-9]\d{1,14}$"
+        return re.match(pattern, value)
